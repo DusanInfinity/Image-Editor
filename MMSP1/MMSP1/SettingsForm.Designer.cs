@@ -74,6 +74,8 @@ namespace MMSP1
             this.ClientSize = new System.Drawing.Size(249, 96);
             this.Controls.Add(this.numBufferCapacity);
             this.Controls.Add(this.lblBufferCapacity);
+            this.MaximumSize = new System.Drawing.Size(265, 135);
+            this.MinimumSize = new System.Drawing.Size(265, 135);
             this.Name = "SettingsForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

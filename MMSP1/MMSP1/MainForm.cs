@@ -127,7 +127,7 @@ namespace MMSP1
             Bitmap img = UndoBuffer.Last.Value;
             UndoBuffer.RemoveLast();
             //RedoBuffer.AddElementAtEndAndRemoveFirstIfBufferOverflow(img, BufferSize);
-            RedoBuffer.AddLast(img); // Po uslovu zadatka, redo buffer nije limitiran
+            RedoBuffer.AddLast(BitmapImg); // Po uslovu zadatka, redo buffer nije limitiran
             LoadImage(img);
         }
 
@@ -137,7 +137,7 @@ namespace MMSP1
 
             Bitmap img = RedoBuffer.Last.Value;
             RedoBuffer.RemoveLast();
-            UndoBuffer.AddElementAtEndAndRemoveFirstIfBufferOverflow(img, BufferCapacity);
+            UndoBuffer.AddElementAtEndAndRemoveFirstIfBufferOverflow(BitmapImg, BufferCapacity);
             LoadImage(img);
         }
 
@@ -171,6 +171,20 @@ namespace MMSP1
         {
             SettingsForm form = new SettingsForm(BufferCapacity);
             form.ShowDialog(this);
+        }
+
+        private void gammaFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (BitmapImg == null)
+            {
+                ShowError("Da biste primenili filter, prvo morate učitati sliku!");
+                return;
+            }
+
+            RegisterNewUndoAction((Bitmap)BitmapImg.Clone());
+
+            BMapFilters.Gamma(BitmapImg, 2.0, 2.0, 2.0);
+            LoadImage(BitmapImg);
         }
     }
 }

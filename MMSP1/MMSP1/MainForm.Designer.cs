@@ -36,6 +36,7 @@ namespace MMSP1
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filtersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.prikazKanalskihSlikaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.gammaFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoRedoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -103,7 +104,8 @@ namespace MMSP1
             // filtersToolStripMenuItem
             // 
             this.filtersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.prikazKanalskihSlikaToolStripMenuItem});
+            this.prikazKanalskihSlikaToolStripMenuItem,
+            this.gammaFilterToolStripMenuItem});
             this.filtersToolStripMenuItem.Name = "filtersToolStripMenuItem";
             this.filtersToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.filtersToolStripMenuItem.Text = "Filters";
@@ -114,6 +116,13 @@ namespace MMSP1
             this.prikazKanalskihSlikaToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
             this.prikazKanalskihSlikaToolStripMenuItem.Text = "Prikaz kanalskih slika";
             this.prikazKanalskihSlikaToolStripMenuItem.Click += new System.EventHandler(this.prikazKanalskihSlikaToolStripMenuItem_Click);
+            // 
+            // gammaFilterToolStripMenuItem
+            // 
+            this.gammaFilterToolStripMenuItem.Name = "gammaFilterToolStripMenuItem";
+            this.gammaFilterToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.gammaFilterToolStripMenuItem.Text = "Gamma filter";
+            this.gammaFilterToolStripMenuItem.Click += new System.EventHandler(this.gammaFilterToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
@@ -135,7 +144,7 @@ namespace MMSP1
             // 
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
             this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.undoToolStripMenuItem.Text = "Undo";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.Undo_Click);
             // 
@@ -143,14 +152,14 @@ namespace MMSP1
             // 
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
             this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.redoToolStripMenuItem.Text = "Redo";
             this.redoToolStripMenuItem.Click += new System.EventHandler(this.Redo_Click);
             // 
             // podesavanjeToolStripMenuItem
             // 
             this.podesavanjeToolStripMenuItem.Name = "podesavanjeToolStripMenuItem";
-            this.podesavanjeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.podesavanjeToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.podesavanjeToolStripMenuItem.Text = "Podesavanje";
             this.podesavanjeToolStripMenuItem.Click += new System.EventHandler(this.podesavanjeToolStripMenuItem_Click);
             // 
@@ -221,6 +230,7 @@ namespace MMSP1
             this.MaximumSize = new System.Drawing.Size(994, 713);
             this.MinimumSize = new System.Drawing.Size(994, 713);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MMS-P1";
             this.mainStrip.ResumeLayout(false);
             this.mainStrip.PerformLayout();
@@ -253,6 +263,7 @@ namespace MMSP1
         private System.Windows.Forms.ToolStripMenuItem prikazKanalskihSlikaToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFD;
         private System.Windows.Forms.SaveFileDialog saveFD;
+        private System.Windows.Forms.ToolStripMenuItem gammaFilterToolStripMenuItem;
     }
 }
 
