@@ -149,11 +149,22 @@ namespace MMSP1
             UndoBuffer.AddElementAtEndAndRemoveFirstIfBufferOverflow(img, BufferCapacity);
         }
 
-        public void SetBufferCapacity(int capacity)
+        public void SetBufferCapacity(int newCapacity)
         {
-            if (BufferCapacity == capacity) return;
+            if (BufferCapacity == newCapacity) return;
 
-            BufferCapacity = capacity;
+            if (newCapacity < BufferCapacity)
+            {
+                int actionsNumToRemoveFromBuffer = UndoBuffer.Count - newCapacity;
+
+                while (actionsNumToRemoveFromBuffer > 0)
+                {
+                    UndoBuffer.RemoveFirst();
+                    actionsNumToRemoveFromBuffer--;
+                }
+            }
+
+            BufferCapacity = newCapacity;
         }
 
         private void podesavanjeToolStripMenuItem_Click(object sender, EventArgs e)
