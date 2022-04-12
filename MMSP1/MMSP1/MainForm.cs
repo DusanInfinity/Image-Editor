@@ -1,4 +1,6 @@
-﻿using System;
+﻿using MMSP1.Models;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Windows.Forms;
@@ -9,6 +11,9 @@ namespace MMSP1
     {
         private bool IsMultiplePictureViewActive = true;
         private Bitmap BitmapImg = null;
+        private readonly LinkedList<Bitmap> UndoBuffer = new LinkedList<Bitmap>();
+        private readonly LinkedList<Bitmap> RedoBuffer = new LinkedList<Bitmap>();
+        private int BufferCapacity = 10;
 
 
         public MainForm()
@@ -63,12 +68,7 @@ namespace MMSP1
             if (result == DialogResult.OK)
             {
                 string imgName = openFD.FileName;
-
-                mainPictureBox.Image = Image.FromFile(imgName);
-
-                BitmapImg = (Bitmap)Bitmap.FromFile(imgName);
-
-                RefreshMultipleView();
+                LoadImage((Bitmap)Bitmap.FromFile(imgName));
             }
         }
 
@@ -104,32 +104,62 @@ namespace MMSP1
             MessageBox.Show(this, text, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 
-        private void RefreshMultipleView()
+        private void LoadImage(Bitmap img)
         {
-            if (!IsMultiplePictureViewActive) return;
-
-            CalculateChannelPictureByMask(pictureBoxRed, new byte[] { 255, 0, 0 });
-            CalculateChannelPictureByMask(pictureBoxGreen, new byte[] { 0, 255, 0 });
-            CalculateChannelPictureByMask(pictureBoxBlue, new byte[] { 0, 0, 255 });
+            mainPictureBox.Image = img;
+            BitmapImg = img;
+            RefreshMultipleView();
         }
 
-        private void CalculateChannelPictureByMask(PictureBox pictureBox, byte[] mask)
+        private void RefreshMultipleView()
         {
             if (BitmapImg == null || !IsMultiplePictureViewActive) return;
 
-            Bitmap b = (Bitmap)BitmapImg.Clone();
-
-            for (int i = 0; i < b.Width; i++)
-            {
-                for (int j = 0; j < b.Height; j++)
-                {
-                    System.Drawing.Color c = b.GetPixel(i, j);
-                    b.SetPixel(i, j, Color.FromArgb(c.R & mask[0], c.G & mask[1], c.B & mask[2]));
-                }
-            }
-
-            pictureBox.Image = b;
+            pictureBoxRed.Image = BMapFilters.CalculateChannelByMask(BitmapImg, new byte[] { 255, 0, 0 });
+            pictureBoxGreen.Image = BMapFilters.CalculateChannelByMask(BitmapImg, new byte[] { 0, 255, 0 });
+            pictureBoxBlue.Image = BMapFilters.CalculateChannelByMask(BitmapImg, new byte[] { 0, 0, 255 });
         }
 
+        private void Undo_Click(object sender, EventArgs e)
+        {
+            if (UndoBuffer.Count < 1) return;
+
+            Bitmap img = UndoBuffer.Last.Value;
+            UndoBuffer.RemoveLast();
+            //RedoBuffer.AddElementAtEndAndRemoveFirstIfBufferOverflow(img, BufferSize);
+            RedoBuffer.AddLast(img); // Po uslovu zadatka, redo buffer nije limitiran
+            LoadImage(img);
+        }
+
+        private void Redo_Click(object sender, EventArgs e)
+        {
+            if (RedoBuffer.Count < 1) return;
+
+            Bitmap img = RedoBuffer.Last.Value;
+            RedoBuffer.RemoveLast();
+            UndoBuffer.AddElementAtEndAndRemoveFirstIfBufferOverflow(img, BufferCapacity);
+            LoadImage(img);
+        }
+
+        private void RegisterNewUndoAction(Bitmap img)
+        {
+            if (RedoBuffer.Count > 0)
+                RedoBuffer.Clear();
+
+            UndoBuffer.AddElementAtEndAndRemoveFirstIfBufferOverflow(img, BufferCapacity);
+        }
+
+        public void SetBufferCapacity(int capacity)
+        {
+            if (BufferCapacity == capacity) return;
+
+            BufferCapacity = capacity;
+        }
+
+        private void podesavanjeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SettingsForm form = new SettingsForm(BufferCapacity);
+            form.ShowDialog(this);
+        }
     }
 }
