@@ -22,10 +22,12 @@ namespace MMSP1.Models
             return b;
         }
 
-        public static void Gamma(Bitmap b, double red, double green, double blue)
+        public static bool Gamma(Bitmap inputBitmap, double red, double green, double blue, out Bitmap generatedBitmap)
         {
+
+            generatedBitmap = (Bitmap)inputBitmap.Clone();
             // S = 5, 1/S = 1/5 = 0.2
-            if (red < 0.2 || red > 5 || green < 0.2 || green > 5 || blue < 0.2 || blue > 5) return;
+            if (red < 0.2 || red > 5 || green < 0.2 || green > 5 || blue < 0.2 || blue > 5) return false;
 
             byte[] redGamma = new byte[256];
             byte[] greenGamma = new byte[256];
@@ -38,7 +40,7 @@ namespace MMSP1.Models
                 blueGamma[i] = (byte)Math.Min(255, (int)((255.0 * Math.Pow(i / 255.0, 1.0 / blue)) + 0.5));
             }
 
-            BitmapData bmData = b.LockBits(new Rectangle(0, 0, b.Width, b.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+            BitmapData bmData = generatedBitmap.LockBits(new Rectangle(0, 0, generatedBitmap.Width, generatedBitmap.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
 
             int stride = bmData.Stride;
             System.IntPtr Scan0 = bmData.Scan0;
@@ -47,11 +49,11 @@ namespace MMSP1.Models
             {
                 byte* p = (byte*)(void*)Scan0;
 
-                int nOffset = stride - b.Width * 3;
+                int nOffset = stride - generatedBitmap.Width * 3;
 
-                for (int y = 0; y < b.Height; ++y)
+                for (int y = 0; y < generatedBitmap.Height; ++y)
                 {
-                    for (int x = 0; x < b.Width; ++x)
+                    for (int x = 0; x < generatedBitmap.Width; ++x)
                     { // bgr 
                         p[2] = redGamma[p[2]]; // r
                         p[1] = greenGamma[p[1]]; // g
@@ -63,7 +65,9 @@ namespace MMSP1.Models
                 }
             }
 
-            b.UnlockBits(bmData);
+            generatedBitmap.UnlockBits(bmData);
+
+            return true;
         }
     }
 }

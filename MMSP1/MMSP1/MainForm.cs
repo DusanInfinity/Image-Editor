@@ -187,11 +187,17 @@ namespace MMSP1
             GammaFilterInputForm gammaInput = new GammaFilterInputForm();
             if (gammaInput.ShowDialog() == DialogResult.OK)
             {
-                RegisterNewUndoAction((Bitmap)BitmapImg.Clone());
-
-                BMapFilters.Gamma(BitmapImg, gammaInput.R, gammaInput.G, gammaInput.B);
-                LoadImage(BitmapImg);
+                if (BMapFilters.Gamma(BitmapImg, gammaInput.R, gammaInput.G, gammaInput.B, out Bitmap generatedBitmap))
+                {
+                    RegisterNewUndoAction(BitmapImg);
+                    LoadImage(generatedBitmap);
+                }
             }
+        }
+
+        private void sharpenFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

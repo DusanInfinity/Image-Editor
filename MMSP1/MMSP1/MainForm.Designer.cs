@@ -48,6 +48,7 @@ namespace MMSP1
             this.pictureBoxBlue = new System.Windows.Forms.PictureBox();
             this.openFD = new System.Windows.Forms.OpenFileDialog();
             this.saveFD = new System.Windows.Forms.SaveFileDialog();
+            this.sharpenFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGreen)).BeginInit();
@@ -105,7 +106,8 @@ namespace MMSP1
             // 
             this.filtersToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.prikazKanalskihSlikaToolStripMenuItem,
-            this.gammaFilterToolStripMenuItem});
+            this.gammaFilterToolStripMenuItem,
+            this.sharpenFilterToolStripMenuItem});
             this.filtersToolStripMenuItem.Name = "filtersToolStripMenuItem";
             this.filtersToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.filtersToolStripMenuItem.Text = "Filters";
@@ -216,6 +218,13 @@ namespace MMSP1
             this.saveFD.FileName = "default";
             this.saveFD.Filter = "PNG format|*.png|JPG format|*.jpg|BMP format|*.bmp";
             // 
+            // sharpenFilterToolStripMenuItem
+            // 
+            this.sharpenFilterToolStripMenuItem.Name = "sharpenFilterToolStripMenuItem";
+            this.sharpenFilterToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.sharpenFilterToolStripMenuItem.Text = "Sharpen filter";
+            this.sharpenFilterToolStripMenuItem.Click += new System.EventHandler(this.sharpenFilterToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -264,6 +273,7 @@ namespace MMSP1
         private System.Windows.Forms.OpenFileDialog openFD;
         private System.Windows.Forms.SaveFileDialog saveFD;
         private System.Windows.Forms.ToolStripMenuItem gammaFilterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sharpenFilterToolStripMenuItem;
     }
 }
 
