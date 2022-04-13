@@ -22,11 +22,10 @@ namespace MMSP1.Models
             return b;
         }
 
-        public static bool Gamma(Bitmap b, double red, double green, double blue)
+        public static void Gamma(Bitmap b, double red, double green, double blue)
         {
-            if (red < .2 || red > 5) return false;
-            if (green < .2 || green > 5) return false;
-            if (blue < .2 || blue > 5) return false;
+            // S = 5, 1/S = 1/5 = 0.2
+            if (red < 0.2 || red > 5 || green < 0.2 || green > 5 || blue < 0.2 || blue > 5) return;
 
             byte[] redGamma = new byte[256];
             byte[] greenGamma = new byte[256];
@@ -39,7 +38,6 @@ namespace MMSP1.Models
                 blueGamma[i] = (byte)Math.Min(255, (int)((255.0 * Math.Pow(i / 255.0, 1.0 / blue)) + 0.5));
             }
 
-            // GDI+ still lies to us - the return format is BGR, NOT RGB.
             BitmapData bmData = b.LockBits(new Rectangle(0, 0, b.Width, b.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
 
             int stride = bmData.Stride;
@@ -54,10 +52,10 @@ namespace MMSP1.Models
                 for (int y = 0; y < b.Height; ++y)
                 {
                     for (int x = 0; x < b.Width; ++x)
-                    {
-                        p[2] = redGamma[p[2]];
-                        p[1] = greenGamma[p[1]];
-                        p[0] = blueGamma[p[0]];
+                    { // bgr 
+                        p[2] = redGamma[p[2]]; // r
+                        p[1] = greenGamma[p[1]]; // g
+                        p[0] = blueGamma[p[0]]; // b
 
                         p += 3;
                     }
@@ -66,8 +64,6 @@ namespace MMSP1.Models
             }
 
             b.UnlockBits(bmData);
-
-            return true;
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MMSP1.Models
+namespace MMSP1.Extensions
 {
     public static class LinkedListExtensions
     {

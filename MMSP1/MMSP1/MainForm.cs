@@ -1,4 +1,5 @@
-﻿using MMSP1.Models;
+﻿using MMSP1.Extensions;
+using MMSP1.Models;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -60,6 +61,8 @@ namespace MMSP1
             }
 
             IsMultiplePictureViewActive = !IsMultiplePictureViewActive;
+
+            RefreshMultipleView();
         }
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -181,10 +184,14 @@ namespace MMSP1
                 return;
             }
 
-            RegisterNewUndoAction((Bitmap)BitmapImg.Clone());
+            GammaFilterInputForm gammaInput = new GammaFilterInputForm();
+            if (gammaInput.ShowDialog() == DialogResult.OK)
+            {
+                RegisterNewUndoAction((Bitmap)BitmapImg.Clone());
 
-            BMapFilters.Gamma(BitmapImg, 2.0, 2.0, 2.0);
-            LoadImage(BitmapImg);
+                BMapFilters.Gamma(BitmapImg, gammaInput.R, gammaInput.G, gammaInput.B);
+                LoadImage(BitmapImg);
+            }
         }
     }
 }
