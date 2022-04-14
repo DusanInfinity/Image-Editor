@@ -15,6 +15,7 @@ namespace MMSP1
         private readonly LinkedList<Bitmap> UndoBuffer = new LinkedList<Bitmap>();
         private readonly LinkedList<Bitmap> RedoBuffer = new LinkedList<Bitmap>();
         private int BufferCapacity = 10;
+        private bool RunFiltersInWin32Core = false;
 
 
         public MainForm()
@@ -118,9 +119,18 @@ namespace MMSP1
         {
             if (BitmapImg == null || !IsMultiplePictureViewActive) return;
 
-            pictureBoxRed.Image = BMapFilters.CalculateChannelByMask(BitmapImg, new byte[] { 255, 0, 0 });
-            pictureBoxGreen.Image = BMapFilters.CalculateChannelByMask(BitmapImg, new byte[] { 0, 255, 0 });
-            pictureBoxBlue.Image = BMapFilters.CalculateChannelByMask(BitmapImg, new byte[] { 0, 0, 255 });
+            //if (RunFiltersInWin32Core) // u svrhu testiranja, ova promenljiva se odnosi samo na osnovni filter
+            //{
+            pictureBoxRed.Image = BMapFilters.CalculateChannelByMaskUnsafe(BitmapImg, new byte[] { 255, 0, 0 });
+            pictureBoxGreen.Image = BMapFilters.CalculateChannelByMaskUnsafe(BitmapImg, new byte[] { 0, 255, 0 });
+            pictureBoxBlue.Image = BMapFilters.CalculateChannelByMaskUnsafe(BitmapImg, new byte[] { 0, 0, 255 });
+            /*}
+            else
+            {
+                pictureBoxRed.Image = BMapFilters.CalculateChannelByMask(BitmapImg, new byte[] { 255, 0, 0 });
+                pictureBoxGreen.Image = BMapFilters.CalculateChannelByMask(BitmapImg, new byte[] { 0, 255, 0 });
+                pictureBoxBlue.Image = BMapFilters.CalculateChannelByMask(BitmapImg, new byte[] { 0, 0, 255 });
+            } */
         }
 
         private void Undo_Click(object sender, EventArgs e)
@@ -187,17 +197,70 @@ namespace MMSP1
             GammaFilterInputForm gammaInput = new GammaFilterInputForm();
             if (gammaInput.ShowDialog() == DialogResult.OK)
             {
-                if (BMapFilters.Gamma(BitmapImg, gammaInput.R, gammaInput.G, gammaInput.B, out Bitmap generatedBitmap))
+                if (RunFiltersInWin32Core)
                 {
-                    RegisterNewUndoAction(BitmapImg);
-                    LoadImage(generatedBitmap);
+                    if (BMapFilters.GammaUnsafe(BitmapImg, gammaInput.R, gammaInput.G, gammaInput.B, out Bitmap generatedBitmap))
+                    {
+                        RegisterNewUndoAction(BitmapImg);
+                        LoadImage(generatedBitmap);
+                    }
+                }
+                else
+                {
+                    if (BMapFilters.Gamma(BitmapImg, gammaInput.R, gammaInput.G, gammaInput.B, out Bitmap generatedBitmap))
+                    {
+                        RegisterNewUndoAction(BitmapImg);
+                        LoadImage(generatedBitmap);
+                    }
                 }
             }
         }
 
         private void sharpenFilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (BitmapImg == null)
+            {
+                ShowError("Da biste primenili filter, prvo morate učitati sliku!");
+                return;
+            }
 
+            if (BMapFilters.Sharpen(BitmapImg, 11, out Bitmap generatedBitmap))
+            {
+                RegisterNewUndoAction(BitmapImg);
+                LoadImage(generatedBitmap);
+            }
+        }
+
+        private void izvrsenjeUToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RunFiltersInWin32Core = !RunFiltersInWin32Core;
+            stripItemRunInWin32.Checked = RunFiltersInWin32Core;
+        }
+
+        private void pixelateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (BitmapImg == null)
+            {
+                ShowError("Da biste primenili filter, prvo morate učitati sliku!");
+                return;
+            }
+
+            InputForm inputForm = new InputForm();
+            inputForm.SetTitle("Pixelate");
+            inputForm.SetText("Unesite velicinu piksela:");
+            inputForm.SetInputValue("15");
+            if (inputForm.ShowDialog() == DialogResult.OK)
+            {
+                string input = inputForm.GetInputValue();
+                if (short.TryParse(input, out short pixelSize))
+                {
+                    if (BMapFilters.Pixelate(BitmapImg, out Bitmap generatedBitmap, pixelSize))
+                    {
+                        RegisterNewUndoAction(BitmapImg);
+                        LoadImage(generatedBitmap);
+                    }
+                }
+            }
         }
     }
 }
