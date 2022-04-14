@@ -135,16 +135,23 @@ namespace MMSP1.Models
         }
 
 
-        public static bool Sharpen(Bitmap inputBitmap, int nWeight /* default to 11*/, out Bitmap generatedBitmap)
+        public static bool Sharpen(Bitmap inputBitmap, int nWeight /* default to 11*/, out Bitmap generatedBitmap, string matrixSize = "3x3")
         {
             generatedBitmap = (Bitmap)inputBitmap.Clone();
-            ConvMatrix m = new ConvMatrix();
+            ConvMatrix m;
+            if (matrixSize == "5x5")
+                m = new ConvMatrix5x5();
+            else if (matrixSize == "7x7")
+                m = new ConvMatrix7x7();
+            else
+                m = new ConvMatrix();
+
             m.SetAll(0);
-            m.Pixel = nWeight;
-            m.TopMid = m.MidLeft = m.MidRight = m.BottomMid = -2;
+            m.e = nWeight;
+            m.b = m.d = m.f = m.h = -2;
             m.Factor = nWeight - 8;
 
-            return m.Conv3x3(generatedBitmap);
+            return m.Convert(generatedBitmap);
         }
 
 
@@ -232,6 +239,74 @@ namespace MMSP1.Models
             }
 
             OffsetFilter(outputBitmap, pt);
+            return true;
+        }
+
+        public static bool EdgeEnhance(Bitmap inputBitmap, byte nThreshold, out Bitmap outputBitmap)
+        {
+            outputBitmap = (Bitmap)inputBitmap.Clone();
+            Bitmap b2 = (Bitmap)inputBitmap.Clone();
+
+            // GDI+ still lies to us - the return format is BGR, NOT RGB.
+            BitmapData bmData = outputBitmap.LockBits(new Rectangle(0, 0, outputBitmap.Width, outputBitmap.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+            BitmapData bmData2 = b2.LockBits(new Rectangle(0, 0, outputBitmap.Width, outputBitmap.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+
+            int stride = bmData.Stride;
+            System.IntPtr Scan0 = bmData.Scan0;
+            System.IntPtr Scan02 = bmData2.Scan0;
+
+            unsafe
+            {
+                byte* p = (byte*)(void*)Scan0;
+                byte* p2 = (byte*)(void*)Scan02;
+
+                int nOffset = stride - outputBitmap.Width * 3;
+                int nWidth = outputBitmap.Width * 3;
+
+                int nPixel = 0, nPixelMax = 0;
+
+                p += stride;
+                p2 += stride;
+
+                for (int y = 1; y < outputBitmap.Height - 1; ++y)
+                {
+                    p += 3;
+                    p2 += 3;
+
+                    for (int x = 3; x < nWidth - 3; ++x)
+                    {
+                        nPixelMax = Math.Abs((p2 - stride + 3)[0] - (p2 + stride - 3)[0]); // C-G
+
+                        nPixel = Math.Abs((p2 + stride + 3)[0] - (p2 - stride - 3)[0]); // I-A
+
+                        if (nPixel > nPixelMax)
+                            nPixelMax = nPixel;
+
+                        nPixel = Math.Abs((p2 + stride)[0] - (p2 - stride)[0]); // H-B
+
+                        if (nPixel > nPixelMax)
+                            nPixelMax = nPixel;
+
+                        nPixel = Math.Abs((p2 + 3)[0] - (p2 - 3)[0]); // F-D
+
+                        if (nPixel > nPixelMax)
+                            nPixelMax = nPixel;
+
+                        if (nPixelMax > nThreshold && nPixelMax > p[0])
+                            p[0] = (byte)Math.Max(p[0], nPixelMax);
+
+                        ++p;
+                        ++p2;
+                    }
+
+                    p += nOffset + 3;
+                    p2 += nOffset + 3;
+                }
+            }
+
+            outputBitmap.UnlockBits(bmData);
+            b2.UnlockBits(bmData2);
+
             return true;
         }
     }

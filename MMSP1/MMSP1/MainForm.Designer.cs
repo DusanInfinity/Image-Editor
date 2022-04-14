@@ -38,6 +38,7 @@ namespace MMSP1
             this.prikazKanalskihSlikaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gammaFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sharpenFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stripItemRunInWin32 = new System.Windows.Forms.ToolStripMenuItem();
             this.naRacunanjeKonvVrednostiUticuPrethodnoIzracunateVrednostiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,17 +46,16 @@ namespace MMSP1
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.podesavanjeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dodatniFilteriToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.promenljiviKonvulcioniFiltriToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.edgeEnhanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pixelateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainPictureBox = new System.Windows.Forms.PictureBox();
             this.pictureBoxGreen = new System.Windows.Forms.PictureBox();
             this.pictureBoxRed = new System.Windows.Forms.PictureBox();
             this.pictureBoxBlue = new System.Windows.Forms.PictureBox();
             this.openFD = new System.Windows.Forms.OpenFileDialog();
             this.saveFD = new System.Windows.Forms.SaveFileDialog();
-            this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dodatniFilteriToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.promenljiviKonvulcioniFiltriToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.edgeEnhanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pixelateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGreen)).BeginInit();
@@ -91,7 +91,7 @@ namespace MMSP1
             // 
             this.loadToolStripMenuItem.Name = "loadToolStripMenuItem";
             this.loadToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
-            this.loadToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.loadToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.loadToolStripMenuItem.Text = "Load";
             this.loadToolStripMenuItem.Click += new System.EventHandler(this.loadToolStripMenuItem_Click);
             // 
@@ -99,14 +99,14 @@ namespace MMSP1
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(140, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -141,6 +141,12 @@ namespace MMSP1
             this.sharpenFilterToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
             this.sharpenFilterToolStripMenuItem.Text = "Sharpen filter";
             this.sharpenFilterToolStripMenuItem.Click += new System.EventHandler(this.sharpenFilterToolStripMenuItem_Click);
+            // 
+            // kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem
+            // 
+            this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem.Name = "kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem";
+            this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
+            this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem.Text = "Kreiranje BMP slike sa 256 indeksiranih boja";
             // 
             // optionsToolStripMenuItem
             // 
@@ -197,8 +203,42 @@ namespace MMSP1
             this.podesavanjeToolStripMenuItem.Text = "Podesavanje";
             this.podesavanjeToolStripMenuItem.Click += new System.EventHandler(this.podesavanjeToolStripMenuItem_Click);
             // 
+            // dodatniFilteriToolStripMenuItem
+            // 
+            this.dodatniFilteriToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.promenljiviKonvulcioniFiltriToolStripMenuItem,
+            this.edgeEnhanceToolStripMenuItem,
+            this.pixelateToolStripMenuItem});
+            this.dodatniFilteriToolStripMenuItem.Name = "dodatniFilteriToolStripMenuItem";
+            this.dodatniFilteriToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
+            this.dodatniFilteriToolStripMenuItem.Text = "Dodatni filteri";
+            // 
+            // promenljiviKonvulcioniFiltriToolStripMenuItem
+            // 
+            this.promenljiviKonvulcioniFiltriToolStripMenuItem.Name = "promenljiviKonvulcioniFiltriToolStripMenuItem";
+            this.promenljiviKonvulcioniFiltriToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
+            this.promenljiviKonvulcioniFiltriToolStripMenuItem.Text = "Promenljivi konvolucioni filtri";
+            this.promenljiviKonvulcioniFiltriToolStripMenuItem.Click += new System.EventHandler(this.promenljiviKonvulcioniFiltriToolStripMenuItem_Click);
+            // 
+            // edgeEnhanceToolStripMenuItem
+            // 
+            this.edgeEnhanceToolStripMenuItem.Name = "edgeEnhanceToolStripMenuItem";
+            this.edgeEnhanceToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
+            this.edgeEnhanceToolStripMenuItem.Text = "EdgeEnhance";
+            this.edgeEnhanceToolStripMenuItem.Click += new System.EventHandler(this.edgeEnhanceToolStripMenuItem_Click);
+            // 
+            // pixelateToolStripMenuItem
+            // 
+            this.pixelateToolStripMenuItem.Name = "pixelateToolStripMenuItem";
+            this.pixelateToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
+            this.pixelateToolStripMenuItem.Text = "Pixelate";
+            this.pixelateToolStripMenuItem.Click += new System.EventHandler(this.pixelateToolStripMenuItem_Click);
+            // 
             // mainPictureBox
             // 
+            this.mainPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.mainPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.mainPictureBox.Location = new System.Drawing.Point(5, 27);
             this.mainPictureBox.Name = "mainPictureBox";
@@ -249,41 +289,6 @@ namespace MMSP1
             // 
             this.saveFD.FileName = "default";
             this.saveFD.Filter = "PNG format|*.png|JPG format|*.jpg|BMP format|*.bmp";
-            // 
-            // kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem
-            // 
-            this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem.Name = "kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem";
-            this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
-            this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem.Text = "Kreiranje BMP slike sa 256 indeksiranih boja";
-            // 
-            // dodatniFilteriToolStripMenuItem
-            // 
-            this.dodatniFilteriToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.promenljiviKonvulcioniFiltriToolStripMenuItem,
-            this.edgeEnhanceToolStripMenuItem,
-            this.pixelateToolStripMenuItem});
-            this.dodatniFilteriToolStripMenuItem.Name = "dodatniFilteriToolStripMenuItem";
-            this.dodatniFilteriToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
-            this.dodatniFilteriToolStripMenuItem.Text = "Dodatni filteri";
-            // 
-            // promenljiviKonvulcioniFiltriToolStripMenuItem
-            // 
-            this.promenljiviKonvulcioniFiltriToolStripMenuItem.Name = "promenljiviKonvulcioniFiltriToolStripMenuItem";
-            this.promenljiviKonvulcioniFiltriToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
-            this.promenljiviKonvulcioniFiltriToolStripMenuItem.Text = "Promenljivi konvolucioni filtri";
-            // 
-            // edgeEnhanceToolStripMenuItem
-            // 
-            this.edgeEnhanceToolStripMenuItem.Name = "edgeEnhanceToolStripMenuItem";
-            this.edgeEnhanceToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
-            this.edgeEnhanceToolStripMenuItem.Text = "EdgeEnhance";
-            // 
-            // pixelateToolStripMenuItem
-            // 
-            this.pixelateToolStripMenuItem.Name = "pixelateToolStripMenuItem";
-            this.pixelateToolStripMenuItem.Size = new System.Drawing.Size(230, 22);
-            this.pixelateToolStripMenuItem.Text = "Pixelate";
-            this.pixelateToolStripMenuItem.Click += new System.EventHandler(this.pixelateToolStripMenuItem_Click);
             // 
             // MainForm
             // 

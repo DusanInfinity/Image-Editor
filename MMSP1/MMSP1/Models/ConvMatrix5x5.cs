@@ -3,19 +3,9 @@ using System.Drawing.Imaging;
 
 namespace MMSP1.Models
 {
-    public class ConvMatrix
+    class ConvMatrix5x5 : ConvMatrix
     {
-        public int a = 0, b = 0, c = 0; // TopLeft = 0, TopMid = 0, TopRight = 0;
-        public int d = 0, e = 1, f = 0;//MidLeft = 0, Pixel = 1, MidRight = 0;
-        public int g = 0, h = 0, i = 0; // BottomLeft = 0, BottomMid = 0, BottomRight = 0;
-        public int Factor = 1;
-        public int Offset = 0;
-        public void SetAll(int nVal)
-        {
-            a = b = c = d = e = f = g = h = i = nVal;
-        }
-
-        public virtual bool Convert(Bitmap bitmap)
+        public override bool Convert(Bitmap bitmap)
         {
             // Avoid divide by zero errors
             if (Factor == 0) return false;
@@ -28,6 +18,9 @@ namespace MMSP1.Models
 
             int stride = bmData.Stride;
             int stride2 = stride * 2;
+            int stride3 = stride * 3;
+            int stride4 = stride * 4;
+
             System.IntPtr Scan0 = bmData.Scan0;
             System.IntPtr SrcScan0 = bmSrc.Scan0;
 
@@ -37,8 +30,9 @@ namespace MMSP1.Models
                 byte* pSrc = (byte*)(void*)SrcScan0;
 
                 int nOffset = stride - bitmap.Width * 3;
-                int nWidth = bitmap.Width - 2;
-                int nHeight = bitmap.Height - 2;
+                // 3 piksela manje jer se od trenutnog uzimaju 2 sa leve i desne strane
+                int nWidth = bitmap.Width - 3;
+                int nHeight = bitmap.Height - 3;
 
                 int nPixel;
 
@@ -50,19 +44,39 @@ namespace MMSP1.Models
                         {
                             nPixel =
                                 (((pSrc[2 - col] * a) +
-                                (pSrc[5 - col] * b) +
-                                (pSrc[8 - col] * c) +
+                                (pSrc[5 - col] * a) +
+                                (pSrc[8 - col] * b) +
+                                (pSrc[11 - col] * b) +
+                                (pSrc[14 - col] * c) +
+
                                 (pSrc[2 + stride - col] * d) +
-                                (pSrc[5 + stride - col] * e) +
-                                (pSrc[8 + stride - col] * f) +
-                                (pSrc[2 + stride2 - col] * g) +
-                                (pSrc[5 + stride2 - col] * h) +
-                                (pSrc[8 + stride2 - col] * i)) / Factor) + Offset;
+                                (pSrc[5 + stride - col] * a) +
+                                (pSrc[8 + stride - col] * b) +
+                                (pSrc[11 + stride - col] * c) +
+                                (pSrc[14 + stride - col] * c) +
+
+                                (pSrc[2 + stride2 - col] * d) +
+                                (pSrc[5 + stride2 - col] * d) +
+                                (pSrc[8 + stride2 - col] * e) +
+                                (pSrc[11 + stride2 - col] * f) +
+                                (pSrc[14 + stride2 - col] * f) +
+
+                                (pSrc[2 + stride3 - col] * g) +
+                                (pSrc[5 + stride3 - col] * g) +
+                                (pSrc[8 + stride3 - col] * h) +
+                                (pSrc[11 + stride3 - col] * i) +
+                                (pSrc[14 + stride3 - col] * f) +
+
+                                (pSrc[2 + stride4 - col] * g) +
+                                (pSrc[5 + stride4 - col] * h) +
+                                (pSrc[8 + stride4 - col] * h) +
+                                (pSrc[11 + stride4 - col] * i) +
+                                (pSrc[14 + stride4 - col] * i)) / Factor) + Offset;
 
                             if (nPixel < 0) nPixel = 0;
                             if (nPixel > 255) nPixel = 255;
 
-                            p[5 + stride - col] = (byte)nPixel;
+                            p[8 + stride2 - col] = (byte)nPixel;
                         }
 
                         p += 3;

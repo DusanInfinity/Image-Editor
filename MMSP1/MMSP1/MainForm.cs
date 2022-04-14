@@ -35,15 +35,22 @@ namespace MMSP1
             ToggleMultipleView();
         }
 
+        private void ResizePictureBoxByImageSize()
+        {
+            var size = BitmapImg != null ? new System.Drawing.Size(BitmapImg.Width, BitmapImg.Height) : new System.Drawing.Size(968, 642); //prikaz jedne slike
+            mainPictureBox.MinimumSize = size;
+            mainPictureBox.MaximumSize = size;
+            mainPictureBox.Size = size;
+        }
 
         private void ToggleMultipleView()
         {
             if (IsMultiplePictureViewActive)
             {
-                var size = new System.Drawing.Size(506, 387); //prikaz jedne slike
-                MinimumSize = size;
-                MaximumSize = size;
-                Size = size;
+                ResizePictureBoxByImageSize();
+
+                MinimumSize = new Size(0, 0);
+                MaximumSize = new Size(0, 0);
 
                 pictureBoxRed.Hide();
                 pictureBoxGreen.Hide();
@@ -51,10 +58,18 @@ namespace MMSP1
             }
             else
             {
-                var size = new System.Drawing.Size(994, 713); //prikaz vise slika
+                var size = new System.Drawing.Size(481, 318); //prikaz vise slika
+                mainPictureBox.MinimumSize = size;
+                mainPictureBox.MaximumSize = size;
+                mainPictureBox.Size = size;
+
+                size = new Size(994, 713);
                 MinimumSize = size;
                 MaximumSize = size;
                 Size = size;
+                if (WindowState == FormWindowState.Maximized)
+                    WindowState = FormWindowState.Normal;
+
 
                 pictureBoxRed.Show();
                 pictureBoxGreen.Show();
@@ -62,7 +77,7 @@ namespace MMSP1
             }
 
             IsMultiplePictureViewActive = !IsMultiplePictureViewActive;
-
+            prikazKanalskihSlikaToolStripMenuItem.Checked = IsMultiplePictureViewActive;
             RefreshMultipleView();
         }
 
@@ -73,6 +88,8 @@ namespace MMSP1
             {
                 string imgName = openFD.FileName;
                 LoadImage((Bitmap)Bitmap.FromFile(imgName));
+                if (!IsMultiplePictureViewActive)
+                    ResizePictureBoxByImageSize();
             }
         }
 
@@ -262,6 +279,63 @@ namespace MMSP1
                 }
                 else
                     ShowError("Niste uneli validnu velicinu piksela!");
+            }
+        }
+
+        private void promenljiviKonvulcioniFiltriToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (BitmapImg == null)
+            {
+                ShowError("Da biste primenili filter, prvo morate učitati sliku!");
+                return;
+            }
+
+            SharpenInput inputForm = new SharpenInput();
+            if (inputForm.ShowDialog() == DialogResult.OK)
+            {
+                string matrixSize = inputForm.GetMatrixSize();
+
+                if (matrixSize != "3x3" && matrixSize != "5x5" & matrixSize != "7x7")
+                {
+                    ShowError("Niste uneli validnu velicinu matrice!");
+                    return;
+                }
+
+                int nWeight = inputForm.GetnWeight();
+
+                if (BMapFilters.Sharpen(BitmapImg, nWeight, out Bitmap generatedBitmap, matrixSize))
+                {
+                    RegisterNewUndoAction(BitmapImg);
+                    LoadImage(generatedBitmap);
+                }
+            }
+        }
+
+        private void edgeEnhanceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (BitmapImg == null)
+            {
+                ShowError("Da biste primenili filter, prvo morate učitati sliku!");
+                return;
+            }
+
+            InputForm inputForm = new InputForm();
+            inputForm.SetTitle("EdgeEnhance");
+            inputForm.SetText("Unesite vrednost za \r\nThreshold:");
+            inputForm.SetInputValue("0");
+            if (inputForm.ShowDialog() == DialogResult.OK)
+            {
+                string input = inputForm.GetInputValue();
+                if (byte.TryParse(input, out byte threshold) && threshold >= 0)
+                {
+                    if (BMapFilters.EdgeEnhance(BitmapImg, threshold, out Bitmap generatedBitmap))
+                    {
+                        RegisterNewUndoAction(BitmapImg);
+                        LoadImage(generatedBitmap);
+                    }
+                }
+                else
+                    ShowError("Niste uneli validnu vrednost za threshold!");
             }
         }
     }
