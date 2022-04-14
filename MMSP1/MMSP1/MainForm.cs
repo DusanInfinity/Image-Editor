@@ -252,7 +252,7 @@ namespace MMSP1
             if (inputForm.ShowDialog() == DialogResult.OK)
             {
                 string input = inputForm.GetInputValue();
-                if (short.TryParse(input, out short pixelSize))
+                if (short.TryParse(input, out short pixelSize) && pixelSize > 0)
                 {
                     if (BMapFilters.Pixelate(BitmapImg, out Bitmap generatedBitmap, pixelSize))
                     {
@@ -260,6 +260,8 @@ namespace MMSP1
                         LoadImage(generatedBitmap);
                     }
                 }
+                else
+                    ShowError("Niste uneli validnu velicinu piksela!");
             }
         }
     }
