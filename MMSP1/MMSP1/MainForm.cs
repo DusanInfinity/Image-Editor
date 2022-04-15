@@ -16,6 +16,7 @@ namespace MMSP1
         private readonly LinkedList<Bitmap> RedoBuffer = new LinkedList<Bitmap>();
         private int BufferCapacity = 10;
         private bool RunFiltersInWin32Core = false;
+        private bool IsChartsViewActive = false;
 
         public MainForm()
         {
@@ -54,6 +55,8 @@ namespace MMSP1
                 pictureBoxRed.Hide();
                 pictureBoxGreen.Hide();
                 pictureBoxBlue.Hide();
+
+                ToggleCharts(false);
             }
             else
             {
@@ -70,14 +73,62 @@ namespace MMSP1
                     WindowState = FormWindowState.Normal;
 
 
-                pictureBoxRed.Show();
-                pictureBoxGreen.Show();
-                pictureBoxBlue.Show();
+                if (IsChartsViewActive)
+                {
+                    ToggleCharts(true);
+                }
+                else
+                {
+                    pictureBoxRed.Show();
+                    pictureBoxGreen.Show();
+                    pictureBoxBlue.Show();
+                }
             }
 
             IsMultiplePictureViewActive = !IsMultiplePictureViewActive;
             prikazKanalskihSlikaToolStripMenuItem.Checked = IsMultiplePictureViewActive;
             RefreshMultipleView();
+        }
+
+        private void RefreshMultipleView()
+        {
+            if (BitmapImg == null || !IsMultiplePictureViewActive) return;
+
+            //if (RunFiltersInWin32Core) // u svrhu testiranja, ova promenljiva se odnosi samo na osnovni filter
+            //{
+            pictureBoxRed.Image = BMapFilters.CalculateChannelByMaskUnsafe(BitmapImg, new byte[] { 255, 0, 0 });
+            pictureBoxGreen.Image = BMapFilters.CalculateChannelByMaskUnsafe(BitmapImg, new byte[] { 0, 255, 0 });
+            pictureBoxBlue.Image = BMapFilters.CalculateChannelByMaskUnsafe(BitmapImg, new byte[] { 0, 0, 255 });
+            /*}
+            else
+            {
+                pictureBoxRed.Image = BMapFilters.CalculateChannelByMask(BitmapImg, new byte[] { 255, 0, 0 });
+                pictureBoxGreen.Image = BMapFilters.CalculateChannelByMask(BitmapImg, new byte[] { 0, 255, 0 });
+                pictureBoxBlue.Image = BMapFilters.CalculateChannelByMask(BitmapImg, new byte[] { 0, 0, 255 });
+            } */
+
+            RefreshChannelHistograms();
+        }
+
+        private void RefreshChannelHistograms()
+        {
+            if (!IsMultiplePictureViewActive || !IsChartsViewActive || pictureBoxRed.Image == null || pictureBoxGreen.Image == null || pictureBoxBlue.Image == null)
+                return;
+
+            List<int> xValues = new List<int>(256);
+            for (int i = 0; i < 256; i++)
+                xValues.Add(i);
+
+
+            List<int> redValues = Histogram.GetHistogramValues((Bitmap)pictureBoxRed.Image, ChannelColor.Red);
+            chartRed.Series["Series1"].Points.DataBindXY(xValues, redValues);
+
+            List<int> greenValues = Histogram.GetHistogramValues((Bitmap)pictureBoxGreen.Image, ChannelColor.Green);
+            chartGreen.Series["Series1"].Points.DataBindXY(xValues, greenValues);
+
+            List<int> blueValues = Histogram.GetHistogramValues((Bitmap)pictureBoxBlue.Image, ChannelColor.Blue);
+            chartBlue.Series["Series1"].Points.DataBindXY(xValues, blueValues);
+
         }
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
@@ -131,23 +182,7 @@ namespace MMSP1
             RefreshMultipleView();
         }
 
-        private void RefreshMultipleView()
-        {
-            if (BitmapImg == null || !IsMultiplePictureViewActive) return;
 
-            //if (RunFiltersInWin32Core) // u svrhu testiranja, ova promenljiva se odnosi samo na osnovni filter
-            //{
-            pictureBoxRed.Image = BMapFilters.CalculateChannelByMaskUnsafe(BitmapImg, new byte[] { 255, 0, 0 });
-            pictureBoxGreen.Image = BMapFilters.CalculateChannelByMaskUnsafe(BitmapImg, new byte[] { 0, 255, 0 });
-            pictureBoxBlue.Image = BMapFilters.CalculateChannelByMaskUnsafe(BitmapImg, new byte[] { 0, 0, 255 });
-            /*}
-            else
-            {
-                pictureBoxRed.Image = BMapFilters.CalculateChannelByMask(BitmapImg, new byte[] { 255, 0, 0 });
-                pictureBoxGreen.Image = BMapFilters.CalculateChannelByMask(BitmapImg, new byte[] { 0, 255, 0 });
-                pictureBoxBlue.Image = BMapFilters.CalculateChannelByMask(BitmapImg, new byte[] { 0, 0, 255 });
-            } */
-        }
 
         private void Undo_Click(object sender, EventArgs e)
         {
@@ -351,6 +386,76 @@ namespace MMSP1
             {
                 RegisterNewUndoAction(BitmapImg);
                 LoadImage(generatedBitmap);
+            }
+        }
+
+        private void ToggleCharts(bool show)
+        {
+            if (show)
+            {
+                chartRed.Show();
+                chartGreen.Show();
+                chartBlue.Show();
+            }
+            else
+            {
+                chartRed.Hide();
+                chartGreen.Hide();
+                chartBlue.Hide();
+            }
+        }
+
+
+        private void prikazHistogramaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            IsChartsViewActive = !IsChartsViewActive;
+            RefreshMultipleView();
+
+            if (IsChartsViewActive)
+            {
+                if (IsMultiplePictureViewActive)
+                {
+                    pictureBoxRed.Hide();
+                    pictureBoxGreen.Hide();
+                    pictureBoxBlue.Hide();
+
+                    ToggleCharts(true);
+                }
+            }
+            else
+            {
+                if (IsMultiplePictureViewActive)
+                {
+                    pictureBoxRed.Show();
+                    pictureBoxGreen.Show();
+                    pictureBoxBlue.Show();
+
+                    ToggleCharts(false);
+                }
+            }
+
+            prikazHistogramaToolStripMenuItem.Checked = IsChartsViewActive;
+        }
+
+        private void minMaxToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HistogramMinMaxInput inputForm = new HistogramMinMaxInput();
+            if (inputForm.ShowDialog() == DialogResult.OK)
+            {
+                ChannelColor channel = inputForm.GetSelectedChannel();
+                byte min = inputForm.GetMin();
+                byte max = inputForm.GetMax();
+                if (min == 0 && max == 255) return; // nema svrhe da obradjujemo sliku ako nije promenjen opseg
+                if (min <= max)
+                {
+                    if (Histogram.MinMaxFilter(BitmapImg, channel, min, max, out Bitmap generatedBitmap))
+                    {
+                        RegisterNewUndoAction(BitmapImg);
+                        LoadImage(generatedBitmap);
+                    }
+                }
+                else
+                    ShowError("Niste uneli validan opseg Min-Max vrednosti!");
             }
         }
     }
