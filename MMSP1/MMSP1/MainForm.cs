@@ -17,7 +17,6 @@ namespace MMSP1
         private int BufferCapacity = 10;
         private bool RunFiltersInWin32Core = false;
 
-
         public MainForm()
         {
             InitializeComponent();
@@ -37,7 +36,7 @@ namespace MMSP1
 
         private void ResizePictureBoxByImageSize()
         {
-            var size = BitmapImg != null ? new System.Drawing.Size(BitmapImg.Width, BitmapImg.Height) : new System.Drawing.Size(968, 642); //prikaz jedne slike
+            var size = BitmapImg != null ? new System.Drawing.Size(BitmapImg.Width, BitmapImg.Height) : new System.Drawing.Size(830, 557);
             mainPictureBox.MinimumSize = size;
             mainPictureBox.MaximumSize = size;
             mainPictureBox.Size = size;
@@ -46,7 +45,7 @@ namespace MMSP1
         private void ToggleMultipleView()
         {
             if (IsMultiplePictureViewActive)
-            {
+            { //prikaz jedne slike
                 ResizePictureBoxByImageSize();
 
                 MinimumSize = new Size(0, 0);
@@ -58,12 +57,12 @@ namespace MMSP1
             }
             else
             {
-                var size = new System.Drawing.Size(481, 318); //prikaz vise slika
+                var size = new System.Drawing.Size(412, 275);
                 mainPictureBox.MinimumSize = size;
                 mainPictureBox.MaximumSize = size;
                 mainPictureBox.Size = size;
 
-                size = new Size(994, 713);
+                size = new Size(855, 623); //prikaz vise slika
                 MinimumSize = size;
                 MaximumSize = size;
                 Size = size;
@@ -100,7 +99,7 @@ namespace MMSP1
             DialogResult result = saveFD.ShowDialog();
             if (result == DialogResult.OK)
             {
-                string[] fileNameSplit = saveFD.FileName.Split(".");
+                string[] fileNameSplit = saveFD.FileName.Split('.');
                 string formatStr = fileNameSplit[fileNameSplit.Length - 1].ToLower();
 
                 ImageFormat chosenFormat;

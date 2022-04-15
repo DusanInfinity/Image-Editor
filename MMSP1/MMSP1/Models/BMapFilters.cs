@@ -23,7 +23,6 @@ namespace MMSP1.Models
 
             return b;
         }
-
         public static Bitmap CalculateChannelByMaskUnsafe(Bitmap img, byte[] mask)
         {
             Bitmap b = (Bitmap)img.Clone();
@@ -87,7 +86,6 @@ namespace MMSP1.Models
 
             return true;
         }
-
         public static bool GammaUnsafe(Bitmap inputBitmap, double red, double green, double blue, out Bitmap generatedBitmap)
         {
 
@@ -135,7 +133,6 @@ namespace MMSP1.Models
 
             return true;
         }
-
 
         public static bool Sharpen(Bitmap inputBitmap, int nWeight /* default to 11*/, out Bitmap generatedBitmap, string matrixSize = "3x3")
         {
@@ -311,7 +308,6 @@ namespace MMSP1.Models
 
             return true;
         }
-
 
         public static bool Create256ColorBMP(Bitmap inputBitmap, out Bitmap outputBitmap)
         {

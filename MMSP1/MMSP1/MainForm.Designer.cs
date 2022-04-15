@@ -50,17 +50,17 @@ namespace MMSP1
             this.promenljiviKonvulcioniFiltriToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.edgeEnhanceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pixelateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.mainPictureBox = new System.Windows.Forms.PictureBox();
-            this.pictureBoxGreen = new System.Windows.Forms.PictureBox();
-            this.pictureBoxRed = new System.Windows.Forms.PictureBox();
-            this.pictureBoxBlue = new System.Windows.Forms.PictureBox();
             this.openFD = new System.Windows.Forms.OpenFileDialog();
             this.saveFD = new System.Windows.Forms.SaveFileDialog();
+            this.pictureBoxBlue = new System.Windows.Forms.PictureBox();
+            this.pictureBoxGreen = new System.Windows.Forms.PictureBox();
+            this.pictureBoxRed = new System.Windows.Forms.PictureBox();
+            this.mainPictureBox = new System.Windows.Forms.PictureBox();
             this.mainStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBlue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGreen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRed)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBlue)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // mainStrip
@@ -73,7 +73,8 @@ namespace MMSP1
             this.dodatniFilteriToolStripMenuItem});
             this.mainStrip.Location = new System.Drawing.Point(0, 0);
             this.mainStrip.Name = "mainStrip";
-            this.mainStrip.Size = new System.Drawing.Size(978, 24);
+            this.mainStrip.Padding = new System.Windows.Forms.Padding(5, 2, 0, 2);
+            this.mainStrip.Size = new System.Drawing.Size(839, 24);
             this.mainStrip.TabIndex = 0;
             this.mainStrip.Text = "Main Menu Strip";
             // 
@@ -185,7 +186,7 @@ namespace MMSP1
             // 
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
             this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.undoToolStripMenuItem.Text = "Undo";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.Undo_Click);
             // 
@@ -193,14 +194,14 @@ namespace MMSP1
             // 
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
             this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.redoToolStripMenuItem.Text = "Redo";
             this.redoToolStripMenuItem.Click += new System.EventHandler(this.Redo_Click);
             // 
             // podesavanjeToolStripMenuItem
             // 
             this.podesavanjeToolStripMenuItem.Name = "podesavanjeToolStripMenuItem";
-            this.podesavanjeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.podesavanjeToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
             this.podesavanjeToolStripMenuItem.Text = "Podesavanje";
             this.podesavanjeToolStripMenuItem.Click += new System.EventHandler(this.podesavanjeToolStripMenuItem_Click);
             // 
@@ -235,52 +236,6 @@ namespace MMSP1
             this.pixelateToolStripMenuItem.Text = "Pixelate";
             this.pixelateToolStripMenuItem.Click += new System.EventHandler(this.pixelateToolStripMenuItem_Click);
             // 
-            // mainPictureBox
-            // 
-            this.mainPictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.mainPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.mainPictureBox.Location = new System.Drawing.Point(5, 27);
-            this.mainPictureBox.Name = "mainPictureBox";
-            this.mainPictureBox.Size = new System.Drawing.Size(481, 318);
-            this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.mainPictureBox.TabIndex = 1;
-            this.mainPictureBox.TabStop = false;
-            // 
-            // pictureBoxGreen
-            // 
-            this.pictureBoxGreen.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxGreen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxGreen.Location = new System.Drawing.Point(492, 27);
-            this.pictureBoxGreen.Name = "pictureBoxGreen";
-            this.pictureBoxGreen.Size = new System.Drawing.Size(481, 318);
-            this.pictureBoxGreen.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxGreen.TabIndex = 2;
-            this.pictureBoxGreen.TabStop = false;
-            // 
-            // pictureBoxRed
-            // 
-            this.pictureBoxRed.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.pictureBoxRed.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxRed.Location = new System.Drawing.Point(5, 351);
-            this.pictureBoxRed.Name = "pictureBoxRed";
-            this.pictureBoxRed.Size = new System.Drawing.Size(481, 318);
-            this.pictureBoxRed.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxRed.TabIndex = 3;
-            this.pictureBoxRed.TabStop = false;
-            // 
-            // pictureBoxBlue
-            // 
-            this.pictureBoxBlue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxBlue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxBlue.Location = new System.Drawing.Point(492, 351);
-            this.pictureBoxBlue.Name = "pictureBoxBlue";
-            this.pictureBoxBlue.Size = new System.Drawing.Size(481, 318);
-            this.pictureBoxBlue.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxBlue.TabIndex = 4;
-            this.pictureBoxBlue.TabStop = false;
-            // 
             // openFD
             // 
             this.openFD.FileName = "default";
@@ -291,28 +246,68 @@ namespace MMSP1
             this.saveFD.FileName = "default";
             this.saveFD.Filter = "PNG format|*.png|JPG format|*.jpg|BMP format|*.bmp";
             // 
+            // pictureBoxBlue
+            // 
+            this.pictureBoxBlue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxBlue.Location = new System.Drawing.Point(423, 305);
+            this.pictureBoxBlue.Name = "pictureBoxBlue";
+            this.pictureBoxBlue.Size = new System.Drawing.Size(412, 275);
+            this.pictureBoxBlue.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxBlue.TabIndex = 4;
+            this.pictureBoxBlue.TabStop = false;
+            // 
+            // pictureBoxGreen
+            // 
+            this.pictureBoxGreen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxGreen.Location = new System.Drawing.Point(423, 23);
+            this.pictureBoxGreen.Name = "pictureBoxGreen";
+            this.pictureBoxGreen.Size = new System.Drawing.Size(412, 275);
+            this.pictureBoxGreen.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxGreen.TabIndex = 5;
+            this.pictureBoxGreen.TabStop = false;
+            // 
+            // pictureBoxRed
+            // 
+            this.pictureBoxRed.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxRed.Location = new System.Drawing.Point(5, 305);
+            this.pictureBoxRed.Name = "pictureBoxRed";
+            this.pictureBoxRed.Size = new System.Drawing.Size(412, 275);
+            this.pictureBoxRed.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxRed.TabIndex = 6;
+            this.pictureBoxRed.TabStop = false;
+            // 
+            // mainPictureBox
+            // 
+            this.mainPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.mainPictureBox.Location = new System.Drawing.Point(5, 23);
+            this.mainPictureBox.Name = "mainPictureBox";
+            this.mainPictureBox.Size = new System.Drawing.Size(412, 275);
+            this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.mainPictureBox.TabIndex = 7;
+            this.mainPictureBox.TabStop = false;
+            // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(978, 674);
-            this.Controls.Add(this.pictureBoxBlue);
+            this.ClientSize = new System.Drawing.Size(839, 584);
+            this.Controls.Add(this.mainPictureBox);
             this.Controls.Add(this.pictureBoxRed);
             this.Controls.Add(this.pictureBoxGreen);
-            this.Controls.Add(this.mainPictureBox);
+            this.Controls.Add(this.pictureBoxBlue);
             this.Controls.Add(this.mainStrip);
             this.MainMenuStrip = this.mainStrip;
-            this.MaximumSize = new System.Drawing.Size(994, 713);
-            this.MinimumSize = new System.Drawing.Size(994, 713);
+            this.MaximumSize = new System.Drawing.Size(855, 623);
+            this.MinimumSize = new System.Drawing.Size(855, 623);
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MMS-P1";
             this.mainStrip.ResumeLayout(false);
             this.mainStrip.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBlue)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGreen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxRed)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBlue)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mainPictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -331,10 +326,6 @@ namespace MMSP1
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem podesavanjeToolStripMenuItem;
-        private System.Windows.Forms.PictureBox mainPictureBox;
-        private System.Windows.Forms.PictureBox pictureBoxGreen;
-        private System.Windows.Forms.PictureBox pictureBoxRed;
-        private System.Windows.Forms.PictureBox pictureBoxBlue;
         private System.Windows.Forms.ToolStripMenuItem prikazKanalskihSlikaToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFD;
         private System.Windows.Forms.SaveFileDialog saveFD;
@@ -347,6 +338,10 @@ namespace MMSP1
         private System.Windows.Forms.ToolStripMenuItem promenljiviKonvulcioniFiltriToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem edgeEnhanceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pixelateToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pictureBoxBlue;
+        private System.Windows.Forms.PictureBox pictureBoxGreen;
+        private System.Windows.Forms.PictureBox pictureBoxRed;
+        private System.Windows.Forms.PictureBox mainPictureBox;
     }
 }
 

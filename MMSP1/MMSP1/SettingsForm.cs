@@ -16,7 +16,7 @@ namespace MMSP1
         {
             NumericUpDown num = (NumericUpDown)sender;
 
-            if (num.Value < 1 || num.Value == 1000 || Owner is not MainForm mainForm) return;
+            if (num.Value < 1 || num.Value == 1000 || !(Owner is MainForm mainForm)) return;
 
             mainForm.SetBufferCapacity(Convert.ToInt32(num.Value));
         }
