@@ -338,5 +338,21 @@ namespace MMSP1
                     ShowError("Niste uneli validnu vrednost za threshold!");
             }
         }
+
+        private void kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (BitmapImg == null)
+            {
+                ShowError("Da biste primenili filter, prvo morate učitati sliku!");
+                return;
+            }
+
+
+            if (BMapFilters.Create256ColorBMP(BitmapImg, out Bitmap generatedBitmap))
+            {
+                RegisterNewUndoAction(BitmapImg);
+                LoadImage(generatedBitmap);
+            }
+        }
     }
 }

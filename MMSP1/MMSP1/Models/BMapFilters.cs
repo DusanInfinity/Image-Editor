@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Linq;
 
 namespace MMSP1.Models
 {
@@ -307,6 +309,73 @@ namespace MMSP1.Models
             outputBitmap.UnlockBits(bmData);
             b2.UnlockBits(bmData2);
 
+            return true;
+        }
+
+
+        public static bool Create256ColorBMP(Bitmap inputBitmap, out Bitmap outputBitmap)
+        {
+            //Bitmap outputBitmap = BitmapImg.Clone(new Rectangle(0, 0, BitmapImg.Width, BitmapImg.Height), PixelFormat.Format8bppIndexed);
+
+
+            outputBitmap = new Bitmap(inputBitmap.Width, inputBitmap.Height, PixelFormat.Format8bppIndexed);
+
+            Dictionary<Color, int> dict = new Dictionary<Color, int>();
+
+            for (int i = 0; i < inputBitmap.Width; i++)
+            {
+                for (int j = 0; j < inputBitmap.Height; j++)
+                {
+                    System.Drawing.Color c = inputBitmap.GetPixel(i, j);
+                    if (dict.ContainsKey(c))
+                        dict[c]++;
+                    else
+                        dict.Add(c, 1);
+                }
+            }
+
+            List<KeyValuePair<Color, int>> colors = dict.OrderByDescending(x => x.Value).ToList();
+            int count = colors.Count > 256 ? 256 : colors.Count;
+            var palette = outputBitmap.Palette;
+            for (int i = 0; i < count; i++)
+            {
+                Color c = colors[i].Key;
+                palette.Entries[i] = Color.FromArgb(c.R, c.G, c.B);
+            }
+            outputBitmap.Palette = palette;
+
+
+            for (int i = 0; i < inputBitmap.Width; i++)
+            {
+                for (int j = 0; j < inputBitmap.Height; j++)
+                {
+                    System.Drawing.Color c = inputBitmap.GetPixel(i, j);
+
+                    if (!palette.Entries.Contains(c))
+                    {
+                        /*int minDistance = int.MaxValue;
+                        int colorIndex = 0;
+                        for (int ind = 0; ind < 256; ind++)
+                        {
+                            Color col = outputBitmap.Palette.Entries[ind];
+                            int dist = Math.Abs(col.R - c.R) + Math.Abs(col.G - c.G) + Math.Abs(col.B - c.B);
+
+                            if (dist < minDistance)
+                            {
+                                minDistance = dist;
+                                colorIndex = ind;
+
+                                if (dist == 1)
+                                    break;
+                            }
+                        } */
+
+                        inputBitmap.SetPixel(i, j, outputBitmap.Palette.Entries[0]);
+                    }
+                    else
+                        inputBitmap.SetPixel(i, j, c);
+                }
+            }
             return true;
         }
     }

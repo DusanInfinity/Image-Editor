@@ -147,6 +147,7 @@ namespace MMSP1
             this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem.Name = "kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem";
             this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
             this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem.Text = "Kreiranje BMP slike sa 256 indeksiranih boja";
+            this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem.Click += new System.EventHandler(this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
