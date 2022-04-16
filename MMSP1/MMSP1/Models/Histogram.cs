@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 
@@ -121,6 +122,120 @@ namespace MMSP1.Models
                             p[colorIndex] = min;
                         else if (p[colorIndex] > max)
                             p[colorIndex] = max;
+
+                        p += 3;
+                    }
+                    p += nOffset;
+                }
+            }
+
+            generatedBitmap.UnlockBits(bmData);
+
+            return true;
+        }
+
+        public static bool Grayscale_AritmetickaSredina(Bitmap inputBitmap, out Bitmap generatedBitmap)
+        {
+
+            generatedBitmap = (Bitmap)inputBitmap.Clone();
+
+            BitmapData bmData = generatedBitmap.LockBits(new Rectangle(0, 0, generatedBitmap.Width, generatedBitmap.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+
+            int stride = bmData.Stride;
+            System.IntPtr Scan0 = bmData.Scan0;
+
+            unsafe
+            {
+                byte* p = (byte*)(void*)Scan0;
+
+                int nOffset = stride - generatedBitmap.Width * 3;
+
+                for (int y = 0; y < generatedBitmap.Height; ++y)
+                {
+                    for (int x = 0; x < generatedBitmap.Width; ++x)
+                    { // bgr 
+                        byte gray = (byte)((p[2] + p[1] + p[0]) / 3);
+
+                        p[2] = gray; // r
+                        p[1] = gray; // g
+                        p[0] = gray; // b
+
+                        p += 3;
+                    }
+                    p += nOffset;
+                }
+            }
+
+            generatedBitmap.UnlockBits(bmData);
+
+            return true;
+        }
+
+        public static bool Grayscale_MaxRGB(Bitmap inputBitmap, out Bitmap generatedBitmap)
+        {
+
+            generatedBitmap = (Bitmap)inputBitmap.Clone();
+
+            BitmapData bmData = generatedBitmap.LockBits(new Rectangle(0, 0, generatedBitmap.Width, generatedBitmap.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+
+            int stride = bmData.Stride;
+            System.IntPtr Scan0 = bmData.Scan0;
+
+            unsafe
+            {
+                byte* p = (byte*)(void*)Scan0;
+
+                int nOffset = stride - generatedBitmap.Width * 3;
+
+                for (int y = 0; y < generatedBitmap.Height; ++y)
+                {
+                    for (int x = 0; x < generatedBitmap.Width; ++x)
+                    { // bgr 
+                        byte gray = p[2] > p[1] ? p[2] : p[1];
+                        if (gray < p[0])
+                            gray = p[0];
+
+                        p[2] = gray; // r
+                        p[1] = gray; // g
+                        p[0] = gray; // b
+
+                        p += 3;
+                    }
+                    p += nOffset;
+                }
+            }
+
+            generatedBitmap.UnlockBits(bmData);
+
+            return true;
+        }
+
+        public static bool Grayscale_ColorCoef(Bitmap inputBitmap, decimal Cr, decimal Cg, decimal Cb, out Bitmap generatedBitmap)
+        {
+            generatedBitmap = (Bitmap)inputBitmap.Clone();
+
+            if (Cr + Cg + Cb != 1) return false;
+
+            BitmapData bmData = generatedBitmap.LockBits(new Rectangle(0, 0, generatedBitmap.Width, generatedBitmap.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+
+            int stride = bmData.Stride;
+            System.IntPtr Scan0 = bmData.Scan0;
+
+            unsafe
+            {
+                byte* p = (byte*)(void*)Scan0;
+
+                int nOffset = stride - generatedBitmap.Width * 3;
+
+                for (int y = 0; y < generatedBitmap.Height; ++y)
+                {
+                    for (int x = 0; x < generatedBitmap.Width; ++x)
+                    { // bgr 
+                        byte gray = Convert.ToByte(p[2] * Cr + p[1] * Cg + p[0] * Cb);
+
+                        p[2] = gray; // r
+                        p[1] = gray; // g
+                        p[0] = gray; // b
 
                         p += 3;
                     }

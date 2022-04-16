@@ -421,6 +421,8 @@ namespace MMSP1
 
                     ToggleCharts(true);
                 }
+                else
+                    MessageBox.Show(this, "Aktivirali ste prikaz histograma, ali još uvek nije aktivan prikaz slika po kanalima. Aktivirajte ga da biste videli histograme (Filters->Prikaz kanalskih slika)", "NAPOMENA", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {
@@ -439,6 +441,12 @@ namespace MMSP1
 
         private void minMaxToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (BitmapImg == null)
+            {
+                ShowError("Da biste primenili filter, prvo morate učitati sliku!");
+                return;
+            }
+
             HistogramMinMaxInput inputForm = new HistogramMinMaxInput();
             if (inputForm.ShowDialog() == DialogResult.OK)
             {
@@ -456,6 +464,61 @@ namespace MMSP1
                 }
                 else
                     ShowError("Niste uneli validan opseg Min-Max vrednosti!");
+            }
+        }
+
+        private void grayscaleAritmetickaSredinaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (BitmapImg == null)
+            {
+                ShowError("Da biste primenili filter, prvo morate učitati sliku!");
+                return;
+            }
+
+
+            if (Histogram.Grayscale_AritmetickaSredina(BitmapImg, out Bitmap generatedBitmap))
+            {
+                RegisterNewUndoAction(BitmapImg);
+                LoadImage(generatedBitmap);
+            }
+        }
+
+        private void grayscaleMaxRGBToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (BitmapImg == null)
+            {
+                ShowError("Da biste primenili filter, prvo morate učitati sliku!");
+                return;
+            }
+
+
+            if (Histogram.Grayscale_MaxRGB(BitmapImg, out Bitmap generatedBitmap))
+            {
+                RegisterNewUndoAction(BitmapImg);
+                LoadImage(generatedBitmap);
+            }
+        }
+
+        private void grayscaleColorCoefToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (BitmapImg == null)
+            {
+                ShowError("Da biste primenili filter, prvo morate učitati sliku!");
+                return;
+            }
+
+            GrayscaleCoefInput inputForm = new GrayscaleCoefInput();
+            if (inputForm.ShowDialog() == DialogResult.OK)
+            {
+                decimal Cr = inputForm.GetCr();
+                decimal Cg = inputForm.GetCg();
+                decimal Cb = inputForm.GetCb();
+
+                if (Histogram.Grayscale_ColorCoef(BitmapImg, Cr, Cg, Cb, out Bitmap generatedBitmap))
+                {
+                    RegisterNewUndoAction(BitmapImg);
+                    LoadImage(generatedBitmap);
+                }
             }
         }
     }
