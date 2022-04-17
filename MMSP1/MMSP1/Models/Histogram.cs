@@ -316,7 +316,7 @@ namespace MMSP1.Models
         {
             int minDistanceSquared = 255 * 255 + 255 * 255 + 255 * 255 + 1;
             byte bestIndex = 0;
-            for (byte i = 0; i < palette.Length; i++)
+            for (int i = 0; i < palette.Length; i++)
             {
                 int Rdiff = (color.R & 0xff) - (palette[i].R & 0xff);
                 int Gdiff = (color.G & 0xff) - (palette[i].G & 0xff);
@@ -325,7 +325,7 @@ namespace MMSP1.Models
                 if (distanceSquared < minDistanceSquared)
                 {
                     minDistanceSquared = distanceSquared;
-                    bestIndex = i;
+                    bestIndex = (byte)i;
                 }
             }
             return (palette[bestIndex] == Color.White) ? Color.Empty : palette[bestIndex];

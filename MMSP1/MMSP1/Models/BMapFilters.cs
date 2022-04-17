@@ -309,20 +309,22 @@ namespace MMSP1.Models
             return true;
         }
 
-        public static bool Create256ColorBMP(Bitmap inputBitmap, out Bitmap outputBitmap)
+        public static bool Create256ColorBMP(Bitmap inputBitmap, out Bitmap generatedBitmap)
         {
-            //Bitmap outputBitmap = BitmapImg.Clone(new Rectangle(0, 0, BitmapImg.Width, BitmapImg.Height), PixelFormat.Format8bppIndexed);
+            //generatedBitmap = inputBitmap.Clone(new Rectangle(0, 0, inputBitmap.Width, inputBitmap.Height), PixelFormat.Format8bppIndexed);
 
+            int height = inputBitmap.Height;
+            int width = inputBitmap.Width;
 
-            outputBitmap = new Bitmap(inputBitmap.Width, inputBitmap.Height, PixelFormat.Format8bppIndexed);
+            generatedBitmap = new Bitmap(width, height, PixelFormat.Format8bppIndexed);
 
             Dictionary<Color, int> dict = new Dictionary<Color, int>();
 
-            for (int i = 0; i < inputBitmap.Width; i++)
+            for (int y = 0; y < height; y++)
             {
-                for (int j = 0; j < inputBitmap.Height; j++)
+                for (int x = 0; x < width; x++)
                 {
-                    System.Drawing.Color c = inputBitmap.GetPixel(i, j);
+                    System.Drawing.Color c = inputBitmap.GetPixel(x, y);
                     if (dict.ContainsKey(c))
                         dict[c]++;
                     else
@@ -332,46 +334,68 @@ namespace MMSP1.Models
 
             List<KeyValuePair<Color, int>> colors = dict.OrderByDescending(x => x.Value).ToList();
             int count = colors.Count > 256 ? 256 : colors.Count;
-            var palette = outputBitmap.Palette;
+            var palette = generatedBitmap.Palette;
             for (int i = 0; i < count; i++)
             {
                 Color c = colors[i].Key;
                 palette.Entries[i] = Color.FromArgb(c.R, c.G, c.B);
             }
-            outputBitmap.Palette = palette;
+            generatedBitmap.Palette = palette;
 
 
-            for (int i = 0; i < inputBitmap.Width; i++)
+            BitmapData bmData = generatedBitmap.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, PixelFormat.Format8bppIndexed);
+            BitmapData bmSrc = inputBitmap.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+
+            int stride8 = bmData.Stride;
+            int stride = bmSrc.Stride;
+            System.IntPtr Scan0 = bmData.Scan0;
+            System.IntPtr SrcScan0 = bmSrc.Scan0;
+
+            List<Color> paletteEntriesList = palette.Entries.ToList();
+
+            unsafe
             {
-                for (int j = 0; j < inputBitmap.Height; j++)
+                byte* p8 = (byte*)(void*)Scan0;
+                byte* pSrc = (byte*)(void*)SrcScan0;
+
+                int nOffset = stride - width * 3;
+
+                for (int y = 0; y < height; ++y)
                 {
-                    System.Drawing.Color c = inputBitmap.GetPixel(i, j);
+                    for (int x = 0; x < width; ++x)
+                    { // bgr 
 
-                    if (!palette.Entries.Contains(c))
-                    {
-                        /*int minDistance = int.MaxValue;
-                        int colorIndex = 0;
-                        for (int ind = 0; ind < 256; ind++)
+                        Color currentPixelColor = Color.FromArgb(pSrc[2], pSrc[1], pSrc[0]);
+                        int colorIndex = paletteEntriesList.IndexOf(currentPixelColor);
+                        if (colorIndex != -1)
+                            p8[y * stride8 + x] = (byte)colorIndex;
+                        else
                         {
-                            Color col = outputBitmap.Palette.Entries[ind];
-                            int dist = Math.Abs(col.R - c.R) + Math.Abs(col.G - c.G) + Math.Abs(col.B - c.B);
-
-                            if (dist < minDistance)
+                            int minDistance = int.MaxValue;
+                            colorIndex = 0;
+                            for (int ind = 0; ind < 256; ind++)
                             {
-                                minDistance = dist;
-                                colorIndex = ind;
-
-                                if (dist == 1)
-                                    break;
+                                Color col = paletteEntriesList[ind];
+                                int dist = Math.Abs(col.R - currentPixelColor.R) + Math.Abs(col.G - currentPixelColor.G) + Math.Abs(col.B - currentPixelColor.B);
+                                if (dist < minDistance)
+                                {
+                                    minDistance = dist;
+                                    colorIndex = ind;
+                                    if (dist == 1)
+                                        break;
+                                }
                             }
-                        } */
+                            p8[y * stride8 + x] = (byte)colorIndex;
+                        }
 
-                        inputBitmap.SetPixel(i, j, outputBitmap.Palette.Entries[0]);
+                        pSrc += 3;
                     }
-                    else
-                        inputBitmap.SetPixel(i, j, c);
+                    pSrc += nOffset;
                 }
             }
+
+            generatedBitmap.UnlockBits(bmData);
+            inputBitmap.UnlockBits(bmSrc);
             return true;
         }
     }
