@@ -521,5 +521,35 @@ namespace MMSP1
                 }
             }
         }
+
+        private void orderedDitheringToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (BitmapImg == null)
+            {
+                ShowError("Da biste primenili filter, prvo morate učitati sliku!");
+                return;
+            }
+
+            if (Histogram.OrderedDithering(BitmapImg, out Bitmap generatedBitmap))
+            {
+                RegisterNewUndoAction(BitmapImg);
+                LoadImage(generatedBitmap);
+            }
+        }
+
+        private void jarvisJudiceNinkeDitheringToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (BitmapImg == null)
+            {
+                ShowError("Da biste primenili filter, prvo morate učitati sliku!");
+                return;
+            }
+
+            if (Histogram.JarvisJudiceNinkeDitheringUnsafe(BitmapImg, out Bitmap generatedBitmap))
+            {
+                RegisterNewUndoAction(BitmapImg);
+                LoadImage(generatedBitmap);
+            }
+        }
     }
 }
