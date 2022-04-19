@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace MMSP1
@@ -573,5 +574,53 @@ namespace MMSP1
                 }
             }
         }
+
+        private void dodajSlikuUzorakToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = openFD.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                string imgName = openFD.FileName;
+                Bitmap bmp = (Bitmap)Bitmap.FromFile(imgName);
+
+                string[] strgs = imgName.Split('\\');
+                string fileName = strgs[strgs.Length - 1];
+
+                if (ColorizeFilters.RegisterNewSimpleColorizeMapping(fileName, bmp))
+                {
+                    MessageBox.Show($"Uspesno ste dodali novo mapiranje sa imenom \'{fileName}\'", "Uspesno dodavanje mapiranja");
+                }
+            }
+        }
+
+
+        private void pokreniAlgoritamToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (BitmapImg == null)
+            {
+                ShowError("Da biste primenili filter, prvo morate učitati sliku!");
+                return;
+            }
+
+            SimpleColorizeInput inputForm = new SimpleColorizeInput();
+            if (inputForm.ShowDialog() == DialogResult.OK)
+            {
+                string selectedMapping = inputForm.GetMappingName();
+
+                if (!ColorizeFilters.GetAllSimpleColorizeMappings().Contains(selectedMapping))
+                {
+                    ShowError("Izabrali ste nepostojece mapiranje!");
+                    return;
+                }
+
+                if (ColorizeFilters.SimpleColorize(BitmapImg, selectedMapping, out Bitmap generatedBitmap))
+                {
+                    RegisterNewUndoAction(BitmapImg);
+                    LoadImage(generatedBitmap);
+                }
+            }
+        }
+
+
     }
 }

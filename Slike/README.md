@@ -1,0 +1,1 @@
+Slike koriscene prilikom testiranja kao i proizvodi primene filtera nad slikama.
