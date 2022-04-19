@@ -551,5 +551,27 @@ namespace MMSP1
                 LoadImage(generatedBitmap);
             }
         }
+
+        private void crossdomainColorizeAlgorithmToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (BitmapImg == null)
+            {
+                ShowError("Da biste primenili filter, prvo morate učitati sliku!");
+                return;
+            }
+
+            CrossDomainColorizeInput inputForm = new CrossDomainColorizeInput();
+            if (inputForm.ShowDialog() == DialogResult.OK)
+            {
+                short newHue = inputForm.GetHue();
+                double newSaturation = inputForm.GetSaturation();
+
+                if (ColorizeFilters.CrossDomainColorize(BitmapImg, newHue, newSaturation, out Bitmap generatedBitmap))
+                {
+                    RegisterNewUndoAction(BitmapImg);
+                    LoadImage(generatedBitmap);
+                }
+            }
+        }
     }
 }
