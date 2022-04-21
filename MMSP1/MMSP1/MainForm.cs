@@ -44,6 +44,22 @@ namespace MMSP1
             mainPictureBox.Size = size;
         }
 
+        private void ToggleChannelPictureBoxes(bool toggle)
+        {
+            if (toggle)
+            {
+                pictureBoxRed.Show();
+                pictureBoxGreen.Show();
+                pictureBoxBlue.Show();
+            }
+            else
+            {
+                pictureBoxRed.Hide();
+                pictureBoxGreen.Hide();
+                pictureBoxBlue.Hide();
+            }
+        }
+
         private void ToggleMultipleView()
         {
             if (IsMultiplePictureViewActive)
@@ -53,10 +69,7 @@ namespace MMSP1
                 MinimumSize = new Size(0, 0);
                 MaximumSize = new Size(0, 0);
 
-                pictureBoxRed.Hide();
-                pictureBoxGreen.Hide();
-                pictureBoxBlue.Hide();
-
+                ToggleChannelPictureBoxes(false);
                 ToggleCharts(false);
             }
             else
@@ -75,15 +88,9 @@ namespace MMSP1
 
 
                 if (IsChartsViewActive)
-                {
                     ToggleCharts(true);
-                }
                 else
-                {
-                    pictureBoxRed.Show();
-                    pictureBoxGreen.Show();
-                    pictureBoxBlue.Show();
-                }
+                    ToggleChannelPictureBoxes(true);
             }
 
             IsMultiplePictureViewActive = !IsMultiplePictureViewActive;
@@ -416,10 +423,7 @@ namespace MMSP1
             {
                 if (IsMultiplePictureViewActive)
                 {
-                    pictureBoxRed.Hide();
-                    pictureBoxGreen.Hide();
-                    pictureBoxBlue.Hide();
-
+                    ToggleChannelPictureBoxes(false);
                     ToggleCharts(true);
                 }
                 else
@@ -429,10 +433,7 @@ namespace MMSP1
             {
                 if (IsMultiplePictureViewActive)
                 {
-                    pictureBoxRed.Show();
-                    pictureBoxGreen.Show();
-                    pictureBoxBlue.Show();
-
+                    ToggleChannelPictureBoxes(true);
                     ToggleCharts(false);
                 }
             }
@@ -465,6 +466,46 @@ namespace MMSP1
                 }
                 else
                     ShowError("Niste uneli validan opseg Min-Max vrednosti!");
+            }
+        }
+
+        private void grayscaleView2ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (BitmapImg == null)
+            {
+                ShowError("Da biste primenili filter, prvo morate učitati sliku!");
+                return;
+            }
+
+
+            GrayscaleCoefInput inputForm = new GrayscaleCoefInput();
+            if (inputForm.ShowDialog() == DialogResult.OK)
+            {
+                decimal Cr = inputForm.GetCr();
+                decimal Cg = inputForm.GetCg();
+                decimal Cb = inputForm.GetCb();
+
+                if (Histogram.Grayscale_AritmetickaSredina(BitmapImg, out Bitmap aritmetickaSredina) &&
+                Histogram.Grayscale_MaxRGB(BitmapImg, out Bitmap maxRGB) &&
+                Histogram.Grayscale_ColorCoef(BitmapImg, Cr, Cg, Cb, out Bitmap colorCoef))
+                {
+                    if (IsChartsViewActive)
+                    {
+                        ToggleCharts(false);
+                        IsChartsViewActive = false;
+                        prikazHistogramaToolStripMenuItem.Checked = false;
+
+                        if (IsMultiplePictureViewActive)
+                            ToggleChannelPictureBoxes(true);
+                    }
+
+                    if (!IsMultiplePictureViewActive)
+                        ToggleMultipleView();
+
+                    pictureBoxRed.Image = aritmetickaSredina;
+                    pictureBoxGreen.Image = maxRGB;
+                    pictureBoxBlue.Image = colorCoef;
+                }
             }
         }
 
@@ -531,7 +572,7 @@ namespace MMSP1
                 return;
             }
 
-            if (Histogram.OrderedDithering(BitmapImg, out Bitmap generatedBitmap))
+            if (DitheringFilters.OrderedDithering(BitmapImg, out Bitmap generatedBitmap))
             {
                 RegisterNewUndoAction(BitmapImg);
                 LoadImage(generatedBitmap);
@@ -546,7 +587,7 @@ namespace MMSP1
                 return;
             }
 
-            if (Histogram.JarvisJudiceNinkeDitheringUnsafe(BitmapImg, out Bitmap generatedBitmap))
+            if (DitheringFilters.JarvisJudiceNinkeDitheringUnsafe(BitmapImg, out Bitmap generatedBitmap))
             {
                 RegisterNewUndoAction(BitmapImg);
                 LoadImage(generatedBitmap);
