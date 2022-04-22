@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -177,6 +178,13 @@ namespace MMSP1
 
                 RedoBuffer.Clear();
                 UndoBuffer.Clear();
+
+                /*ShannonFano.CompressFile("default.elfbmp");
+
+                string text = ShannonFano.SfDeCompressFile("default.elfbmp");
+
+                using (StreamWriter sw = new StreamWriter("default.elfbmp.decompressed"))
+                    sw.Write(text); */
             }
         }
 
