@@ -29,19 +29,18 @@ namespace MMSP1
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title7 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title8 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend9 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title9 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea13 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend13 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title13 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea14 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend14 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title14 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea15 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend15 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series15 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title15 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.mainStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -66,20 +65,10 @@ namespace MMSP1
             this.pixelateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.histogramFiltriToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.minMaxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.grayscaleView2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.grayscaleAritmetickaSredinaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.grayscaleMaxRGBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.grayscaleColorCoefToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openFD = new System.Windows.Forms.OpenFileDialog();
-            this.saveFD = new System.Windows.Forms.SaveFileDialog();
-            this.pictureBoxBlue = new System.Windows.Forms.PictureBox();
-            this.pictureBoxGreen = new System.Windows.Forms.PictureBox();
-            this.pictureBoxRed = new System.Windows.Forms.PictureBox();
-            this.mainPictureBox = new System.Windows.Forms.PictureBox();
-            this.chartRed = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.chartGreen = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.chartBlue = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.grayscaleView2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ditheringToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.orderedDitheringToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.jarvisJudiceNinkeDitheringToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -88,6 +77,17 @@ namespace MMSP1
             this.dodajSlikuUzorakToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.pokreniAlgoritamToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.crossdomainColorizeAlgorithmToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFD = new System.Windows.Forms.OpenFileDialog();
+            this.saveFD = new System.Windows.Forms.SaveFileDialog();
+            this.pictureBoxBlue = new System.Windows.Forms.PictureBox();
+            this.pictureBoxGreen = new System.Windows.Forms.PictureBox();
+            this.pictureBoxRed = new System.Windows.Forms.PictureBox();
+            this.mainPictureBox = new System.Windows.Forms.PictureBox();
+            this.chartRed = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chartGreen = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.chartBlue = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.downsamplingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mainStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBlue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGreen)).BeginInit();
@@ -193,7 +193,8 @@ namespace MMSP1
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.stripItemRunInWin32,
             this.naRacunanjeKonvVrednostiUticuPrethodnoIzracunateVrednostiToolStripMenuItem,
-            this.prikazHistogramaToolStripMenuItem});
+            this.prikazHistogramaToolStripMenuItem,
+            this.downsamplingToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.optionsToolStripMenuItem.Text = "Options";
@@ -232,7 +233,7 @@ namespace MMSP1
             // 
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
             this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.undoToolStripMenuItem.Text = "Undo";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.Undo_Click);
             // 
@@ -240,14 +241,14 @@ namespace MMSP1
             // 
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
             this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.redoToolStripMenuItem.Text = "Redo";
             this.redoToolStripMenuItem.Click += new System.EventHandler(this.Redo_Click);
             // 
             // podesavanjeToolStripMenuItem
             // 
             this.podesavanjeToolStripMenuItem.Name = "podesavanjeToolStripMenuItem";
-            this.podesavanjeToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.podesavanjeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.podesavanjeToolStripMenuItem.Text = "Podesavanje";
             this.podesavanjeToolStripMenuItem.Click += new System.EventHandler(this.podesavanjeToolStripMenuItem_Click);
             // 
@@ -297,168 +298,37 @@ namespace MMSP1
             // minMaxToolStripMenuItem
             // 
             this.minMaxToolStripMenuItem.Name = "minMaxToolStripMenuItem";
-            this.minMaxToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.minMaxToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.minMaxToolStripMenuItem.Text = "MinMax";
             this.minMaxToolStripMenuItem.Click += new System.EventHandler(this.minMaxToolStripMenuItem_Click);
+            // 
+            // grayscaleView2ToolStripMenuItem
+            // 
+            this.grayscaleView2ToolStripMenuItem.Name = "grayscaleView2ToolStripMenuItem";
+            this.grayscaleView2ToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
+            this.grayscaleView2ToolStripMenuItem.Text = "Grayscale - View2";
+            this.grayscaleView2ToolStripMenuItem.Click += new System.EventHandler(this.grayscaleView2ToolStripMenuItem_Click);
             // 
             // grayscaleAritmetickaSredinaToolStripMenuItem
             // 
             this.grayscaleAritmetickaSredinaToolStripMenuItem.Name = "grayscaleAritmetickaSredinaToolStripMenuItem";
-            this.grayscaleAritmetickaSredinaToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.grayscaleAritmetickaSredinaToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.grayscaleAritmetickaSredinaToolStripMenuItem.Text = "Grayscale: Aritmeticka sredina";
             this.grayscaleAritmetickaSredinaToolStripMenuItem.Click += new System.EventHandler(this.grayscaleAritmetickaSredinaToolStripMenuItem_Click);
             // 
             // grayscaleMaxRGBToolStripMenuItem
             // 
             this.grayscaleMaxRGBToolStripMenuItem.Name = "grayscaleMaxRGBToolStripMenuItem";
-            this.grayscaleMaxRGBToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.grayscaleMaxRGBToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.grayscaleMaxRGBToolStripMenuItem.Text = "Grayscale: Max RGB";
             this.grayscaleMaxRGBToolStripMenuItem.Click += new System.EventHandler(this.grayscaleMaxRGBToolStripMenuItem_Click);
             // 
             // grayscaleColorCoefToolStripMenuItem
             // 
             this.grayscaleColorCoefToolStripMenuItem.Name = "grayscaleColorCoefToolStripMenuItem";
-            this.grayscaleColorCoefToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
+            this.grayscaleColorCoefToolStripMenuItem.Size = new System.Drawing.Size(232, 22);
             this.grayscaleColorCoefToolStripMenuItem.Text = "Grayscale: Color coef.";
             this.grayscaleColorCoefToolStripMenuItem.Click += new System.EventHandler(this.grayscaleColorCoefToolStripMenuItem_Click);
-            // 
-            // openFD
-            // 
-            this.openFD.FileName = "default";
-            this.openFD.Filter = "Image Files(*.bmp;*.jpg;*.png)|*.bmp;*.jpg;*.png";
-            // 
-            // saveFD
-            // 
-            this.saveFD.FileName = "default";
-            this.saveFD.Filter = "PNG format|*.png|JPG format|*.jpg|BMP format|*.bmp";
-            // 
-            // pictureBoxBlue
-            // 
-            this.pictureBoxBlue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxBlue.Location = new System.Drawing.Point(423, 305);
-            this.pictureBoxBlue.Name = "pictureBoxBlue";
-            this.pictureBoxBlue.Size = new System.Drawing.Size(412, 275);
-            this.pictureBoxBlue.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxBlue.TabIndex = 4;
-            this.pictureBoxBlue.TabStop = false;
-            // 
-            // pictureBoxGreen
-            // 
-            this.pictureBoxGreen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxGreen.Location = new System.Drawing.Point(423, 23);
-            this.pictureBoxGreen.Name = "pictureBoxGreen";
-            this.pictureBoxGreen.Size = new System.Drawing.Size(412, 275);
-            this.pictureBoxGreen.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxGreen.TabIndex = 5;
-            this.pictureBoxGreen.TabStop = false;
-            // 
-            // pictureBoxRed
-            // 
-            this.pictureBoxRed.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBoxRed.Location = new System.Drawing.Point(5, 305);
-            this.pictureBoxRed.Name = "pictureBoxRed";
-            this.pictureBoxRed.Size = new System.Drawing.Size(412, 275);
-            this.pictureBoxRed.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBoxRed.TabIndex = 6;
-            this.pictureBoxRed.TabStop = false;
-            // 
-            // mainPictureBox
-            // 
-            this.mainPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.mainPictureBox.Location = new System.Drawing.Point(5, 23);
-            this.mainPictureBox.Name = "mainPictureBox";
-            this.mainPictureBox.Size = new System.Drawing.Size(412, 275);
-            this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.mainPictureBox.TabIndex = 7;
-            this.mainPictureBox.TabStop = false;
-            // 
-            // chartRed
-            // 
-            chartArea7.AxisX.Maximum = 255D;
-            chartArea7.AxisX.Minimum = 0D;
-            chartArea7.BackColor = System.Drawing.Color.DarkGray;
-            chartArea7.Name = "ChartArea1";
-            this.chartRed.ChartAreas.Add(chartArea7);
-            legend7.BackColor = System.Drawing.Color.DarkGray;
-            legend7.Enabled = false;
-            legend7.Name = "Legend1";
-            this.chartRed.Legends.Add(legend7);
-            this.chartRed.Location = new System.Drawing.Point(5, 304);
-            this.chartRed.Name = "chartRed";
-            series7.ChartArea = "ChartArea1";
-            series7.Color = System.Drawing.Color.Black;
-            series7.Legend = "Legend1";
-            series7.Name = "Series1";
-            this.chartRed.Series.Add(series7);
-            this.chartRed.Size = new System.Drawing.Size(412, 275);
-            this.chartRed.TabIndex = 8;
-            this.chartRed.Text = "chart1";
-            title7.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-            title7.ForeColor = System.Drawing.Color.Red;
-            title7.Name = "Title1";
-            title7.Text = "RED";
-            this.chartRed.Titles.Add(title7);
-            // 
-            // chartGreen
-            // 
-            chartArea8.AxisX.Maximum = 255D;
-            chartArea8.AxisX.Minimum = 0D;
-            chartArea8.BackColor = System.Drawing.Color.DarkGray;
-            chartArea8.Name = "ChartArea1";
-            this.chartGreen.ChartAreas.Add(chartArea8);
-            legend8.BackColor = System.Drawing.Color.DarkGray;
-            legend8.Enabled = false;
-            legend8.Name = "Legend1";
-            this.chartGreen.Legends.Add(legend8);
-            this.chartGreen.Location = new System.Drawing.Point(423, 23);
-            this.chartGreen.Name = "chartGreen";
-            series8.ChartArea = "ChartArea1";
-            series8.Color = System.Drawing.Color.Black;
-            series8.Legend = "Legend1";
-            series8.Name = "Series1";
-            this.chartGreen.Series.Add(series8);
-            this.chartGreen.Size = new System.Drawing.Size(412, 275);
-            this.chartGreen.TabIndex = 9;
-            this.chartGreen.Text = "chart1";
-            title8.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-            title8.ForeColor = System.Drawing.Color.LimeGreen;
-            title8.Name = "Title1";
-            title8.Text = "GREEN";
-            this.chartGreen.Titles.Add(title8);
-            // 
-            // chartBlue
-            // 
-            chartArea9.AxisX.Maximum = 255D;
-            chartArea9.AxisX.Minimum = 0D;
-            chartArea9.BackColor = System.Drawing.Color.DarkGray;
-            chartArea9.Name = "ChartArea1";
-            this.chartBlue.ChartAreas.Add(chartArea9);
-            legend9.BackColor = System.Drawing.Color.DarkGray;
-            legend9.Enabled = false;
-            legend9.Name = "Legend1";
-            this.chartBlue.Legends.Add(legend9);
-            this.chartBlue.Location = new System.Drawing.Point(423, 305);
-            this.chartBlue.Name = "chartBlue";
-            series9.ChartArea = "ChartArea1";
-            series9.Color = System.Drawing.Color.Black;
-            series9.Legend = "Legend1";
-            series9.Name = "Series1";
-            this.chartBlue.Series.Add(series9);
-            this.chartBlue.Size = new System.Drawing.Size(412, 275);
-            this.chartBlue.TabIndex = 10;
-            this.chartBlue.Text = "chart1";
-            title9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-            title9.ForeColor = System.Drawing.Color.Blue;
-            title9.Name = "Title1";
-            title9.Text = "BLUE";
-            this.chartBlue.Titles.Add(title9);
-            // 
-            // grayscaleView2ToolStripMenuItem
-            // 
-            this.grayscaleView2ToolStripMenuItem.Name = "grayscaleView2ToolStripMenuItem";
-            this.grayscaleView2ToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
-            this.grayscaleView2ToolStripMenuItem.Text = "Grayscale - View2";
-            this.grayscaleView2ToolStripMenuItem.Click += new System.EventHandler(this.grayscaleView2ToolStripMenuItem_Click);
             // 
             // ditheringToolStripMenuItem
             // 
@@ -504,14 +374,14 @@ namespace MMSP1
             // dodajSlikuUzorakToolStripMenuItem1
             // 
             this.dodajSlikuUzorakToolStripMenuItem1.Name = "dodajSlikuUzorakToolStripMenuItem1";
-            this.dodajSlikuUzorakToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.dodajSlikuUzorakToolStripMenuItem1.Size = new System.Drawing.Size(178, 22);
             this.dodajSlikuUzorakToolStripMenuItem1.Text = "Dodaj sliku - uzorak";
             this.dodajSlikuUzorakToolStripMenuItem1.Click += new System.EventHandler(this.dodajSlikuUzorakToolStripMenuItem_Click);
             // 
             // pokreniAlgoritamToolStripMenuItem1
             // 
             this.pokreniAlgoritamToolStripMenuItem1.Name = "pokreniAlgoritamToolStripMenuItem1";
-            this.pokreniAlgoritamToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.pokreniAlgoritamToolStripMenuItem1.Size = new System.Drawing.Size(178, 22);
             this.pokreniAlgoritamToolStripMenuItem1.Text = "Pokreni algoritam";
             this.pokreniAlgoritamToolStripMenuItem1.Click += new System.EventHandler(this.pokreniAlgoritamToolStripMenuItem_Click);
             // 
@@ -521,6 +391,151 @@ namespace MMSP1
             this.crossdomainColorizeAlgorithmToolStripMenuItem1.Size = new System.Drawing.Size(250, 22);
             this.crossdomainColorizeAlgorithmToolStripMenuItem1.Text = "Cross-domain colorize Algorithm";
             this.crossdomainColorizeAlgorithmToolStripMenuItem1.Click += new System.EventHandler(this.crossdomainColorizeAlgorithmToolStripMenuItem_Click);
+            // 
+            // openFD
+            // 
+            this.openFD.FileName = "default";
+            // 
+            // saveFD
+            // 
+            this.saveFD.FileName = "default";
+            // 
+            // pictureBoxBlue
+            // 
+            this.pictureBoxBlue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxBlue.Location = new System.Drawing.Point(423, 305);
+            this.pictureBoxBlue.Name = "pictureBoxBlue";
+            this.pictureBoxBlue.Size = new System.Drawing.Size(412, 275);
+            this.pictureBoxBlue.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxBlue.TabIndex = 4;
+            this.pictureBoxBlue.TabStop = false;
+            // 
+            // pictureBoxGreen
+            // 
+            this.pictureBoxGreen.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxGreen.Location = new System.Drawing.Point(423, 23);
+            this.pictureBoxGreen.Name = "pictureBoxGreen";
+            this.pictureBoxGreen.Size = new System.Drawing.Size(412, 275);
+            this.pictureBoxGreen.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxGreen.TabIndex = 5;
+            this.pictureBoxGreen.TabStop = false;
+            // 
+            // pictureBoxRed
+            // 
+            this.pictureBoxRed.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBoxRed.Location = new System.Drawing.Point(5, 305);
+            this.pictureBoxRed.Name = "pictureBoxRed";
+            this.pictureBoxRed.Size = new System.Drawing.Size(412, 275);
+            this.pictureBoxRed.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBoxRed.TabIndex = 6;
+            this.pictureBoxRed.TabStop = false;
+            // 
+            // mainPictureBox
+            // 
+            this.mainPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.mainPictureBox.Location = new System.Drawing.Point(5, 23);
+            this.mainPictureBox.Name = "mainPictureBox";
+            this.mainPictureBox.Size = new System.Drawing.Size(412, 275);
+            this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.mainPictureBox.TabIndex = 7;
+            this.mainPictureBox.TabStop = false;
+            // 
+            // chartRed
+            // 
+            chartArea13.AxisX.Maximum = 255D;
+            chartArea13.AxisX.Minimum = 0D;
+            chartArea13.BackColor = System.Drawing.Color.DarkGray;
+            chartArea13.Name = "ChartArea1";
+            this.chartRed.ChartAreas.Add(chartArea13);
+            legend13.BackColor = System.Drawing.Color.DarkGray;
+            legend13.Enabled = false;
+            legend13.Name = "Legend1";
+            this.chartRed.Legends.Add(legend13);
+            this.chartRed.Location = new System.Drawing.Point(5, 304);
+            this.chartRed.Name = "chartRed";
+            series13.ChartArea = "ChartArea1";
+            series13.Color = System.Drawing.Color.Black;
+            series13.Legend = "Legend1";
+            series13.Name = "Series1";
+            this.chartRed.Series.Add(series13);
+            this.chartRed.Size = new System.Drawing.Size(412, 275);
+            this.chartRed.TabIndex = 8;
+            this.chartRed.Text = "chart1";
+            title13.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
+            title13.ForeColor = System.Drawing.Color.Red;
+            title13.Name = "Title1";
+            title13.Text = "RED";
+            this.chartRed.Titles.Add(title13);
+            // 
+            // chartGreen
+            // 
+            chartArea14.AxisX.Maximum = 255D;
+            chartArea14.AxisX.Minimum = 0D;
+            chartArea14.BackColor = System.Drawing.Color.DarkGray;
+            chartArea14.Name = "ChartArea1";
+            this.chartGreen.ChartAreas.Add(chartArea14);
+            legend14.BackColor = System.Drawing.Color.DarkGray;
+            legend14.Enabled = false;
+            legend14.Name = "Legend1";
+            this.chartGreen.Legends.Add(legend14);
+            this.chartGreen.Location = new System.Drawing.Point(423, 23);
+            this.chartGreen.Name = "chartGreen";
+            series14.ChartArea = "ChartArea1";
+            series14.Color = System.Drawing.Color.Black;
+            series14.Legend = "Legend1";
+            series14.Name = "Series1";
+            this.chartGreen.Series.Add(series14);
+            this.chartGreen.Size = new System.Drawing.Size(412, 275);
+            this.chartGreen.TabIndex = 9;
+            this.chartGreen.Text = "chart1";
+            title14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
+            title14.ForeColor = System.Drawing.Color.LimeGreen;
+            title14.Name = "Title1";
+            title14.Text = "GREEN";
+            this.chartGreen.Titles.Add(title14);
+            // 
+            // chartBlue
+            // 
+            chartArea15.AxisX.Maximum = 255D;
+            chartArea15.AxisX.Minimum = 0D;
+            chartArea15.BackColor = System.Drawing.Color.DarkGray;
+            chartArea15.Name = "ChartArea1";
+            this.chartBlue.ChartAreas.Add(chartArea15);
+            legend15.BackColor = System.Drawing.Color.DarkGray;
+            legend15.Enabled = false;
+            legend15.Name = "Legend1";
+            this.chartBlue.Legends.Add(legend15);
+            this.chartBlue.Location = new System.Drawing.Point(423, 305);
+            this.chartBlue.Name = "chartBlue";
+            series15.ChartArea = "ChartArea1";
+            series15.Color = System.Drawing.Color.Black;
+            series15.Legend = "Legend1";
+            series15.Name = "Series1";
+            this.chartBlue.Series.Add(series15);
+            this.chartBlue.Size = new System.Drawing.Size(412, 275);
+            this.chartBlue.TabIndex = 10;
+            this.chartBlue.Text = "chart1";
+            title15.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
+            title15.ForeColor = System.Drawing.Color.Blue;
+            title15.Name = "Title1";
+            title15.Text = "BLUE";
+            this.chartBlue.Titles.Add(title15);
+            // 
+            // downsamplingToolStripMenuItem
+            // 
+            this.downsamplingToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.saveToolStripMenuItem1});
+            this.downsamplingToolStripMenuItem.Name = "downsamplingToolStripMenuItem";
+            this.downsamplingToolStripMenuItem.Size = new System.Drawing.Size(426, 22);
+            this.downsamplingToolStripMenuItem.Text = "Downsampling";
+            this.downsamplingToolStripMenuItem.Click += new System.EventHandler(this.downsamplingToolStripMenuItem_Click);
+            // 
+            // saveToolStripMenuItem1
+            // 
+            this.saveToolStripMenuItem1.Name = "saveToolStripMenuItem1";
+            this.saveToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.saveToolStripMenuItem1.Text = "Save";
+            this.saveToolStripMenuItem1.Click += new System.EventHandler(this.saveToolStripMenuItem1_Click);
             // 
             // MainForm
             // 
@@ -585,7 +600,6 @@ namespace MMSP1
         private System.Windows.Forms.PictureBox pictureBoxRed;
         private System.Windows.Forms.PictureBox mainPictureBox;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartRed;
-        private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartGreen;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartBlue;
         private System.Windows.Forms.ToolStripMenuItem prikazHistogramaToolStripMenuItem;
@@ -603,6 +617,8 @@ namespace MMSP1
         private System.Windows.Forms.ToolStripMenuItem dodajSlikuUzorakToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem pokreniAlgoritamToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem crossdomainColorizeAlgorithmToolStripMenuItem1;
+        private System.Windows.Forms.ToolStripMenuItem downsamplingToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem1;
     }
 }
 

@@ -18,6 +18,7 @@ namespace MMSP1
         private int BufferCapacity = 10;
         private bool RunFiltersInWin32Core = false;
         private bool IsChartsViewActive = false;
+        private ElfakBitmap[] Downsamples = null;
 
         public MainForm()
         {
@@ -60,8 +61,26 @@ namespace MMSP1
             }
         }
 
+        private void ActivateView2WithPictureBoxes()
+        {
+            if (IsChartsViewActive)
+            {
+                ToggleCharts(false);
+                IsChartsViewActive = false;
+                prikazHistogramaToolStripMenuItem.Checked = false;
+
+                if (IsMultiplePictureViewActive)
+                    ToggleChannelPictureBoxes(true);
+            }
+
+            if (!IsMultiplePictureViewActive)
+                ToggleMultipleView();
+        }
+
         private void ToggleMultipleView()
         {
+            Downsamples = null;
+
             if (IsMultiplePictureViewActive)
             { //prikaz jedne slike
                 ResizePictureBoxByImageSize();
@@ -141,13 +160,23 @@ namespace MMSP1
 
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            openFD.Filter = "Image Files(*.bmp;*.jpg;*.png;*.elfbmp)|*.bmp;*.jpg;*.png;*.elfbmp";
             DialogResult result = openFD.ShowDialog();
             if (result == DialogResult.OK)
             {
                 string imgName = openFD.FileName;
-                LoadImage((Bitmap)Bitmap.FromFile(imgName));
+                Bitmap bmp;
+                if (imgName.EndsWith(".elfbmp"))
+                    bmp = ElfakBitmap.Load(imgName).ToBitmap();
+                else
+                    bmp = (Bitmap)Bitmap.FromFile(imgName);
+
+                LoadImage(bmp);
                 if (!IsMultiplePictureViewActive)
                     ResizePictureBoxByImageSize();
+
+                RedoBuffer.Clear();
+                UndoBuffer.Clear();
             }
         }
 
@@ -155,6 +184,7 @@ namespace MMSP1
         {
             if (mainPictureBox.Image == null) return;
 
+            saveFD.Filter = "PNG format|*.png|JPG format|*.jpg|BMP format|*.bmp";
             DialogResult result = saveFD.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -175,12 +205,18 @@ namespace MMSP1
                 }
 
                 mainPictureBox.Image.Save(saveFD.FileName, chosenFormat);
+                ShowInfo("Uspesno ste sacuvali sliku!");
             }
         }
 
         private void ShowError(string text, string title = "GRESKA")
         {
             MessageBox.Show(this, text, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+
+        private void ShowInfo(string text, string title = "INFO")
+        {
+            MessageBox.Show(this, text, title, MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void LoadImage(Bitmap img)
@@ -489,18 +525,7 @@ namespace MMSP1
                 Histogram.Grayscale_MaxRGB(BitmapImg, out Bitmap maxRGB) &&
                 Histogram.Grayscale_ColorCoef(BitmapImg, Cr, Cg, Cb, out Bitmap colorCoef))
                 {
-                    if (IsChartsViewActive)
-                    {
-                        ToggleCharts(false);
-                        IsChartsViewActive = false;
-                        prikazHistogramaToolStripMenuItem.Checked = false;
-
-                        if (IsMultiplePictureViewActive)
-                            ToggleChannelPictureBoxes(true);
-                    }
-
-                    if (!IsMultiplePictureViewActive)
-                        ToggleMultipleView();
+                    ActivateView2WithPictureBoxes();
 
                     pictureBoxRed.Image = aritmetickaSredina;
                     pictureBoxGreen.Image = maxRGB;
@@ -618,6 +643,7 @@ namespace MMSP1
 
         private void dodajSlikuUzorakToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            openFD.Filter = "Image Files(*.bmp;*.jpg;*.png)|*.bmp;*.jpg;*.png";
             DialogResult result = openFD.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -662,6 +688,55 @@ namespace MMSP1
             }
         }
 
+        private void downsamplingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (BitmapImg == null)
+            {
+                ShowError("Da biste primenili downsampling, prvo morate učitati sliku!");
+                return;
+            }
 
+            ElfakBitmap elfakBitmapR = ElfakBitmap.FromBitmap(BitmapImg, ReduceType.ReduceGreenBlue);
+            ElfakBitmap elfakBitmapG = ElfakBitmap.FromBitmap(BitmapImg, ReduceType.ReduceRedBlue);
+            ElfakBitmap elfakBitmapB = ElfakBitmap.FromBitmap(BitmapImg, ReduceType.ReduceRedGreen);
+
+            ActivateView2WithPictureBoxes();
+
+            pictureBoxRed.Image = elfakBitmapR.ToBitmap();
+            pictureBoxGreen.Image = elfakBitmapG.ToBitmap();
+            pictureBoxBlue.Image = elfakBitmapB.ToBitmap();
+
+            Downsamples = new ElfakBitmap[3]
+            {
+                elfakBitmapR,
+                elfakBitmapG,
+                elfakBitmapB
+            };
+        }
+
+        private void saveToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (Downsamples == null)
+            {
+                ShowError("Da biste sačuvali sliku nakon downsampling-a, potrebno je da prvo pokrenete sam downsampling!");
+                return;
+            }
+
+            DownsamplingSave inputForm = new DownsamplingSave();
+            if (inputForm.ShowDialog() == DialogResult.OK)
+            {
+                int selectedDownsampling = inputForm.GetSelectedDownsampling();
+                if (Downsamples != null && selectedDownsampling < Downsamples.Length)
+                {
+                    saveFD.Filter = "Elfak BMP format|*.elfbmp";
+                    DialogResult result = saveFD.ShowDialog();
+                    if (result == DialogResult.OK)
+                    {
+                        Downsamples[selectedDownsampling].Save(saveFD.FileName);
+                        ShowInfo("Uspesno ste sacuvali sliku!");
+                    }
+                }
+            }
+        }
     }
 }
