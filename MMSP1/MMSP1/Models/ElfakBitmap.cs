@@ -1,6 +1,8 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
+using System.Linq;
 
 namespace MMSP1.Models
 {
@@ -195,7 +197,7 @@ namespace MMSP1.Models
 
         public bool Save(string fileName)
         {
-            using (BinaryWriter sw = new BinaryWriter(File.OpenWrite(fileName)))
+            /*using (BinaryWriter sw = new BinaryWriter(File.OpenWrite(fileName)))
             {
                 //sw.Write((byte)0x42);
                 //sw.Write((byte)0x4D);
@@ -204,7 +206,17 @@ namespace MMSP1.Models
                 sw.Write(Height);
                 sw.Write((byte)ReduceType);
                 sw.Write(Data);
-            }
+            } */
+
+            List<byte> data = new List<byte>();
+
+            data.AddRange(BitConverter.GetBytes(Data.Length));
+            data.AddRange(BitConverter.GetBytes(Width));
+            data.AddRange(BitConverter.GetBytes(Height));
+            data.Add((byte)ReduceType);
+            data.AddRange(Data);
+
+            ShannonFano.CompressFile(fileName, data.ToArray());
 
             return true;
         }
@@ -213,7 +225,17 @@ namespace MMSP1.Models
         {
             ElfakBitmap elfakBitmap = null;
 
-            using (BinaryReader sr = new BinaryReader(File.OpenRead(fileName)))
+            byte[] decompressedData = ShannonFano.DecompressFile(fileName);
+
+            //int length = BitConverter.ToInt32(decompressedData, 0);
+            int width = BitConverter.ToInt32(decompressedData, 4);
+            int height = BitConverter.ToInt32(decompressedData, 8);
+            ReduceType reduceType = (ReduceType)decompressedData[12];
+            byte[] data = decompressedData.Skip(13).ToArray();
+
+            elfakBitmap = new ElfakBitmap(width, height, data, reduceType);
+
+            /*using (BinaryReader sr = new BinaryReader(data))
             {
                 //sr.ReadByte(); // 0x42
                 //sr.ReadByte(); // 0x4D
@@ -224,7 +246,7 @@ namespace MMSP1.Models
                 byte[] data = sr.ReadBytes(length);
 
                 elfakBitmap = new ElfakBitmap(width, height, data, reduceType);
-            }
+            } */
 
             return elfakBitmap;
         }

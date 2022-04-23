@@ -25,18 +25,18 @@ namespace MMSP1.Models
         }
 
         #region Shannon Fano
-        public static void CompressFile(string fileName)
+        public static void CompressFile(string fileName, byte[] data)
         {
-            byte[] text;
+            /*byte[] data;// = new byte[] { 5, 8, 3, 5, 2, 1, 5, 8 };
             using (var ms = new MemoryStream())
             {
                 File.OpenRead(fileName).CopyTo(ms);
-                text = ms.ToArray();
-            }
+                data = ms.ToArray();
+            } */
 
             Dictionary<byte, ShannonFano> AllCharacters = new Dictionary<byte, ShannonFano>();
             int charactersNum = 0;
-            foreach (byte ch in text)
+            foreach (byte ch in data)
             {
                 charactersNum++;
 
@@ -63,38 +63,47 @@ namespace MMSP1.Models
 
             StringBuilder sbEncodedText = new StringBuilder();
             int bitsNum = 0;
-            foreach (byte ch in text)
+            foreach (byte ch in data)
             {
                 sbEncodedText.Append(AllCharacters[ch].Code);
                 bitsNum += AllCharacters[ch].Code.Length;
             }
             string encodedStr = sbEncodedText.ToString();
 
-            using (BinaryWriter sw = new BinaryWriter(File.Open($"{fileName}.compressed", FileMode.Create), Encoding.ASCII))
-            {
-                byte[] array = GetBytes(encodedStr);
-                foreach (byte b in array)
-                    sw.Write(b);
-            }
 
-            using (StreamWriter sw = new StreamWriter($"CODE_{fileName}.txt"))
+            StringBuilder allCharCodeSB = new StringBuilder();
+            foreach (var kvp in AllCharacters)
             {
-                foreach (var kvp in AllCharacters)
-                {
-                    sw.Write($"{kvp.Value.Char}={kvp.Value.Code} ");
-                }
-                sw.Write(bitsNum);
+                allCharCodeSB.Append($"{kvp.Value.Char}={kvp.Value.Code} ");
+            }
+            allCharCodeSB.Append(bitsNum);
+
+            byte[] stringAsBytes = Encoding.Unicode.GetBytes(allCharCodeSB.ToString());
+
+
+            using (BinaryWriter sw = new BinaryWriter(File.Open(fileName, FileMode.Create), Encoding.ASCII))
+            {
+                sw.Write(stringAsBytes.Length);
+                sw.Write(stringAsBytes);
+
+                byte[] array = GetBytes(encodedStr);
+                sw.Write(array);
             }
         }
 
-        public static string SfDeCompressFile(string fileName)
+        public static byte[] DecompressFile(string fileName)
         {
             StringBuilder data = new StringBuilder();
             Dictionary<string, byte> AllCharacters = new Dictionary<string, byte>();
+
+            int readedBytes = 0;
             int bitNum = 0;
-            using (StreamReader sr = new StreamReader($"CODE_{fileName}.txt"))
+            using (BinaryReader br = new BinaryReader(File.Open(fileName, FileMode.Open), Encoding.ASCII))
             {
-                string str = sr.ReadToEnd();
+                int codesBytesNum = br.ReadInt32();
+                byte[] allCharCodeBytes = br.ReadBytes(codesBytesNum);
+
+                string str = Encoding.Unicode.GetString(allCharCodeBytes);
                 string[] textSplit = str.Split(' ');
 
                 foreach (string ch in textSplit)
@@ -102,16 +111,12 @@ namespace MMSP1.Models
                     string[] sfArray = ch.Split('=');
                     if (sfArray.Length == 2)
                     {
-                        AllCharacters.Add(sfArray[1], (byte)sfArray[0][0]);
+                        AllCharacters.Add(sfArray[1], Convert.ToByte(sfArray[0]));
                     }
                 }
                 bitNum = int.Parse(textSplit[textSplit.Length - 1]);
-            }
 
-            int bytesNum = bitNum / 8 + ((bitNum % 8 != 0) ? 1 : 0);
-            int readedBytes = 0;
-            using (BinaryReader br = new BinaryReader(File.Open($"{fileName}.compressed", FileMode.Open), Encoding.ASCII))
-            {
+                int bytesNum = bitNum / 8 + ((bitNum % 8 != 0) ? 1 : 0);
                 while (readedBytes < bytesNum && br.BaseStream.Position < br.BaseStream.Length)
                 {
                     data.Append(Convert.ToString(br.ReadByte(), 2).PadLeft(8, '0'));
@@ -120,21 +125,20 @@ namespace MMSP1.Models
             }
 
             int dataLength = data.Length;
-            string code = "";
 
-            StringBuilder decompressed = new StringBuilder();
+            string code = "";
+            List<byte> decompressedData = new List<byte>();
             for (int i = 0; i < dataLength && i < bitNum; i++)
             {
                 code += data[i];
                 if (AllCharacters.TryGetValue(code, out byte ch))
                 {
-                    Console.Write(ch);
-                    decompressed.Append(ch);
+                    decompressedData.Add(ch);
                     code = ""; // resetujemo kod
                 }
             }
 
-            return decompressed.ToString();
+            return decompressedData.ToArray();
         }
 
         public static byte[] GetBytes(string bitString)
