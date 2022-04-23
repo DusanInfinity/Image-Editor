@@ -398,5 +398,205 @@ namespace MMSP1.Models
             inputBitmap.UnlockBits(bmSrc);
             return true;
         }
+
+
+        // https://www.mechanikadesign.com/2014/09/kuwahara-filter-in-c/
+        public static bool KuwaharaFilter(Bitmap inputBitmap, int Size, out Bitmap generatedBitmap) // size = 13
+        {
+            int width = inputBitmap.Width;
+            int height = inputBitmap.Height;
+            generatedBitmap = new Bitmap(width, height);
+
+            int[] ApetureMinX = { -(Size / 2), 0, -(Size / 2), 0 };
+            int[] ApetureMaxX = { 0, (Size / 2), 0, (Size / 2) };
+            int[] ApetureMinY = { -(Size / 2), -(Size / 2), 0, 0 };
+            int[] ApetureMaxY = { 0, 0, (Size / 2), (Size / 2) };
+
+
+            for (int x = 0; x < width; ++x)
+            {
+                for (int y = 0; y < height; ++y)
+                {
+                    int[] RValues = { 0, 0, 0, 0 };
+                    int[] GValues = { 0, 0, 0, 0 };
+                    int[] BValues = { 0, 0, 0, 0 };
+                    int[] NumPixels = { 0, 0, 0, 0 };
+                    int[] MaxRValue = { 0, 0, 0, 0 };
+                    int[] MaxGValue = { 0, 0, 0, 0 };
+                    int[] MaxBValue = { 0, 0, 0, 0 };
+                    int[] MinRValue = { 255, 255, 255, 255 };
+                    int[] MinGValue = { 255, 255, 255, 255 };
+                    int[] MinBValue = { 255, 255, 255, 255 };
+                    for (int i = 0; i < 4; ++i)
+                    {
+                        for (int x2 = ApetureMinX[i]; x2 < ApetureMaxX[i]; ++x2)
+                        {
+                            int TempX = x + x2;
+                            if (TempX >= 0 && TempX < width)
+                            {
+                                for (int y2 = ApetureMinY[i]; y2 < ApetureMaxY[i]; ++y2)
+                                {
+                                    int TempY = y + y2;
+                                    if (TempY >= 0 && TempY < height)
+                                    {
+                                        Color TempColor = inputBitmap.GetPixel(TempX, TempY);
+                                        RValues[i] += TempColor.R;
+                                        GValues[i] += TempColor.G;
+                                        BValues[i] += TempColor.B;
+
+                                        if (TempColor.R > MaxRValue[i])
+                                            MaxRValue[i] = TempColor.R;
+                                        else if (TempColor.R < MinRValue[i])
+                                            MinRValue[i] = TempColor.R;
+
+                                        if (TempColor.G > MaxGValue[i])
+                                            MaxGValue[i] = TempColor.G;
+                                        else if (TempColor.G < MinGValue[i])
+                                            MinGValue[i] = TempColor.G;
+
+                                        if (TempColor.B > MaxBValue[i])
+                                            MaxBValue[i] = TempColor.B;
+                                        else if (TempColor.B < MinBValue[i])
+                                            MinBValue[i] = TempColor.B;
+
+                                        ++NumPixels[i];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    int j = 0;
+                    int MinDifference = 10000;
+                    for (int i = 0; i < 4; ++i)
+                    {
+                        int CurrentDifference = (MaxRValue[i] - MinRValue[i]) + (MaxGValue[i] - MinGValue[i]) + (MaxBValue[i] - MinBValue[i]);
+                        if (CurrentDifference < MinDifference && NumPixels[i] > 0)
+                        {
+                            j = i;
+                            MinDifference = CurrentDifference;
+                        }
+                    }
+
+                    Color MeanPixel = Color.FromArgb(RValues[j] / NumPixels[j],
+                        GValues[j] / NumPixels[j],
+                        BValues[j] / NumPixels[j]);
+                    generatedBitmap.SetPixel(x, y, MeanPixel);
+                }
+            }
+
+            return true;
+        }
+
+        public static bool KuwaharaFilterUnsafe(Bitmap inputBitmap, int Size, out Bitmap generatedBitmap) // size = 13
+        {
+            int width = inputBitmap.Width;
+            int height = inputBitmap.Height;
+
+
+            generatedBitmap = new Bitmap(width, height);
+
+            int[] ApetureMinX = { -(Size / 2), 0, -(Size / 2), 0 };
+            int[] ApetureMaxX = { 0, (Size / 2), 0, (Size / 2) };
+            int[] ApetureMinY = { -(Size / 2), -(Size / 2), 0, 0 };
+            int[] ApetureMaxY = { 0, 0, (Size / 2), (Size / 2) };
+
+            // GDI+ still lies to us - the return format is BGR, NOT RGB.
+            BitmapData bmData = generatedBitmap.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+            BitmapData bmSrc = inputBitmap.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+
+            int stride = bmSrc.Stride;
+
+            System.IntPtr Scan0 = bmData.Scan0;
+            System.IntPtr SrcScan0 = bmSrc.Scan0;
+
+            unsafe
+            {
+                byte* p = (byte*)(void*)Scan0;
+                byte* pSrc = (byte*)(void*)SrcScan0;
+
+                int nOffset = stride - width * 3;
+
+                for (int x = 0; x < width; ++x)
+                {
+                    for (int y = 0; y < height; ++y)
+                    {
+                        int[] RValues = { 0, 0, 0, 0 };
+                        int[] GValues = { 0, 0, 0, 0 };
+                        int[] BValues = { 0, 0, 0, 0 };
+                        int[] NumPixels = { 0, 0, 0, 0 };
+                        int[] MaxRValue = { 0, 0, 0, 0 };
+                        int[] MaxGValue = { 0, 0, 0, 0 };
+                        int[] MaxBValue = { 0, 0, 0, 0 };
+                        int[] MinRValue = { 255, 255, 255, 255 };
+                        int[] MinGValue = { 255, 255, 255, 255 };
+                        int[] MinBValue = { 255, 255, 255, 255 };
+                        for (int i = 0; i < 4; ++i)
+                        {
+                            for (int x2 = ApetureMinX[i]; x2 < ApetureMaxX[i]; ++x2)
+                            {
+                                int TempX = x + x2;
+                                if (TempX >= 0 && TempX < width)
+                                {
+                                    TempX *= 3; // svaki piksel zauzima po 3 bajta
+                                    for (int y2 = ApetureMinY[i]; y2 < ApetureMaxY[i]; ++y2)
+                                    {
+                                        int TempY = y + y2;
+                                        if (TempY >= 0 && TempY < height)
+                                        {
+                                            int index = TempY * stride + TempX;
+                                            byte red = pSrc[index + 2];
+                                            byte green = pSrc[index + 1];
+                                            byte blue = pSrc[index];
+
+                                            RValues[i] += red;
+                                            GValues[i] += green;
+                                            BValues[i] += blue;
+
+                                            if (red > MaxRValue[i])
+                                                MaxRValue[i] = red;
+                                            else if (red < MinRValue[i])
+                                                MinRValue[i] = red;
+
+                                            if (green > MaxGValue[i])
+                                                MaxGValue[i] = green;
+                                            else if (green < MinGValue[i])
+                                                MinGValue[i] = green;
+
+                                            if (blue > MaxBValue[i])
+                                                MaxBValue[i] = blue;
+                                            else if (blue < MinBValue[i])
+                                                MinBValue[i] = blue;
+
+                                            ++NumPixels[i];
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        int j = 0;
+                        int MinDifference = 10000;
+                        for (int i = 0; i < 4; ++i)
+                        {
+                            int CurrentDifference = (MaxRValue[i] - MinRValue[i]) + (MaxGValue[i] - MinGValue[i]) + (MaxBValue[i] - MinBValue[i]);
+                            if (CurrentDifference < MinDifference && NumPixels[i] > 0)
+                            {
+                                j = i;
+                                MinDifference = CurrentDifference;
+                            }
+                        }
+
+                        int destIndex = y * stride + x * 3;
+                        p[destIndex + 2] = (byte)(RValues[j] / NumPixels[j]);
+                        p[destIndex + 1] = (byte)(GValues[j] / NumPixels[j]);
+                        p[destIndex] = (byte)(BValues[j] / NumPixels[j]);
+                    }
+                }
+            }
+
+            generatedBitmap.UnlockBits(bmData);
+            inputBitmap.UnlockBits(bmSrc);
+
+            return true;
+        }
     }
 }

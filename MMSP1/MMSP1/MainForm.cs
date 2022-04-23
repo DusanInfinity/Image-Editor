@@ -738,5 +738,34 @@ namespace MMSP1
                 }
             }
         }
+
+        private void kuwaharaFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (BitmapImg == null)
+            {
+                ShowError("Da biste primenili filter, prvo morate učitati sliku!");
+                return;
+            }
+
+            InputForm inputForm = new InputForm();
+            inputForm.SetTitle("Kuwahara filter");
+            inputForm.SetText("Unesite vrednost za Size:\r\n(Minimalna vrednost je 2)");
+            inputForm.SetInputValue("13");
+            if (inputForm.ShowDialog() == DialogResult.OK)
+            {
+                string input = inputForm.GetInputValue();
+                if (short.TryParse(input, out short size) && size >= 2)
+                {
+                    if (BMapFilters.KuwaharaFilterUnsafe(BitmapImg, size, out Bitmap generatedBitmap))
+                    {
+                        RegisterNewUndoAction(BitmapImg);
+                        LoadImage(generatedBitmap);
+                    }
+                }
+                else
+                    ShowError("Niste uneli validnu vrednost za Size!");
+            }
+
+        }
     }
 }
