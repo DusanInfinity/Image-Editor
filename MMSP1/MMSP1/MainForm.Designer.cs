@@ -29,18 +29,18 @@ namespace MMSP1
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea16 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend16 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title16 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea17 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend17 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series17 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title17 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea18 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend18 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series18 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title18 = new System.Windows.Forms.DataVisualization.Charting.Title();
             this.mainStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,6 +51,7 @@ namespace MMSP1
             this.gammaFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sharpenFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.kuwaharaFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stripItemRunInWin32 = new System.Windows.Forms.ToolStripMenuItem();
             this.naRacunanjeKonvVrednostiUticuPrethodnoIzracunateVrednostiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -88,7 +89,8 @@ namespace MMSP1
             this.chartRed = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chartGreen = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chartBlue = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.kuwaharaFilterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ujednačavanjeBojaUSličnoObojenimZonamaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.mainStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxBlue)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGreen)).BeginInit();
@@ -157,7 +159,8 @@ namespace MMSP1
             this.gammaFilterToolStripMenuItem,
             this.sharpenFilterToolStripMenuItem,
             this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem,
-            this.kuwaharaFilterToolStripMenuItem});
+            this.kuwaharaFilterToolStripMenuItem,
+            this.ujednačavanjeBojaUSličnoObojenimZonamaToolStripMenuItem});
             this.filtersToolStripMenuItem.Name = "filtersToolStripMenuItem";
             this.filtersToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
             this.filtersToolStripMenuItem.Text = "Filters";
@@ -165,30 +168,37 @@ namespace MMSP1
             // prikazKanalskihSlikaToolStripMenuItem
             // 
             this.prikazKanalskihSlikaToolStripMenuItem.Name = "prikazKanalskihSlikaToolStripMenuItem";
-            this.prikazKanalskihSlikaToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
+            this.prikazKanalskihSlikaToolStripMenuItem.Size = new System.Drawing.Size(320, 22);
             this.prikazKanalskihSlikaToolStripMenuItem.Text = "Prikaz kanalskih slika";
             this.prikazKanalskihSlikaToolStripMenuItem.Click += new System.EventHandler(this.prikazKanalskihSlikaToolStripMenuItem_Click);
             // 
             // gammaFilterToolStripMenuItem
             // 
             this.gammaFilterToolStripMenuItem.Name = "gammaFilterToolStripMenuItem";
-            this.gammaFilterToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
+            this.gammaFilterToolStripMenuItem.Size = new System.Drawing.Size(320, 22);
             this.gammaFilterToolStripMenuItem.Text = "Gamma filter";
             this.gammaFilterToolStripMenuItem.Click += new System.EventHandler(this.gammaFilterToolStripMenuItem_Click);
             // 
             // sharpenFilterToolStripMenuItem
             // 
             this.sharpenFilterToolStripMenuItem.Name = "sharpenFilterToolStripMenuItem";
-            this.sharpenFilterToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
+            this.sharpenFilterToolStripMenuItem.Size = new System.Drawing.Size(320, 22);
             this.sharpenFilterToolStripMenuItem.Text = "Sharpen filter";
             this.sharpenFilterToolStripMenuItem.Click += new System.EventHandler(this.sharpenFilterToolStripMenuItem_Click);
             // 
             // kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem
             // 
             this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem.Name = "kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem";
-            this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
+            this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem.Size = new System.Drawing.Size(320, 22);
             this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem.Text = "Kreiranje BMP slike sa 256 indeksiranih boja";
             this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem.Click += new System.EventHandler(this.kreiranjeBMPSlikeSa256IndeksiranihBojaToolStripMenuItem_Click);
+            // 
+            // kuwaharaFilterToolStripMenuItem
+            // 
+            this.kuwaharaFilterToolStripMenuItem.Name = "kuwaharaFilterToolStripMenuItem";
+            this.kuwaharaFilterToolStripMenuItem.Size = new System.Drawing.Size(320, 22);
+            this.kuwaharaFilterToolStripMenuItem.Text = "Kuwahara filter";
+            this.kuwaharaFilterToolStripMenuItem.Click += new System.EventHandler(this.kuwaharaFilterToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
@@ -251,7 +261,7 @@ namespace MMSP1
             // 
             this.undoToolStripMenuItem.Name = "undoToolStripMenuItem";
             this.undoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.undoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.undoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.undoToolStripMenuItem.Text = "Undo";
             this.undoToolStripMenuItem.Click += new System.EventHandler(this.Undo_Click);
             // 
@@ -259,14 +269,14 @@ namespace MMSP1
             // 
             this.redoToolStripMenuItem.Name = "redoToolStripMenuItem";
             this.redoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.redoToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.redoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.redoToolStripMenuItem.Text = "Redo";
             this.redoToolStripMenuItem.Click += new System.EventHandler(this.Redo_Click);
             // 
             // podesavanjeToolStripMenuItem
             // 
             this.podesavanjeToolStripMenuItem.Name = "podesavanjeToolStripMenuItem";
-            this.podesavanjeToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.podesavanjeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.podesavanjeToolStripMenuItem.Text = "Podesavanje";
             this.podesavanjeToolStripMenuItem.Click += new System.EventHandler(this.podesavanjeToolStripMenuItem_Click);
             // 
@@ -457,94 +467,99 @@ namespace MMSP1
             this.mainPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.mainPictureBox.TabIndex = 7;
             this.mainPictureBox.TabStop = false;
+            this.mainPictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.mainPictureBox_MouseClick);
             // 
             // chartRed
             // 
-            chartArea1.AxisX.Maximum = 255D;
-            chartArea1.AxisX.Minimum = 0D;
-            chartArea1.BackColor = System.Drawing.Color.DarkGray;
-            chartArea1.Name = "ChartArea1";
-            this.chartRed.ChartAreas.Add(chartArea1);
-            legend1.BackColor = System.Drawing.Color.DarkGray;
-            legend1.Enabled = false;
-            legend1.Name = "Legend1";
-            this.chartRed.Legends.Add(legend1);
+            chartArea16.AxisX.Maximum = 255D;
+            chartArea16.AxisX.Minimum = 0D;
+            chartArea16.BackColor = System.Drawing.Color.DarkGray;
+            chartArea16.Name = "ChartArea1";
+            this.chartRed.ChartAreas.Add(chartArea16);
+            legend16.BackColor = System.Drawing.Color.DarkGray;
+            legend16.Enabled = false;
+            legend16.Name = "Legend1";
+            this.chartRed.Legends.Add(legend16);
             this.chartRed.Location = new System.Drawing.Point(5, 304);
             this.chartRed.Name = "chartRed";
-            series1.ChartArea = "ChartArea1";
-            series1.Color = System.Drawing.Color.Black;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chartRed.Series.Add(series1);
+            series16.ChartArea = "ChartArea1";
+            series16.Color = System.Drawing.Color.Black;
+            series16.Legend = "Legend1";
+            series16.Name = "Series1";
+            this.chartRed.Series.Add(series16);
             this.chartRed.Size = new System.Drawing.Size(412, 275);
             this.chartRed.TabIndex = 8;
             this.chartRed.Text = "chart1";
-            title1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-            title1.ForeColor = System.Drawing.Color.Red;
-            title1.Name = "Title1";
-            title1.Text = "RED";
-            this.chartRed.Titles.Add(title1);
+            title16.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
+            title16.ForeColor = System.Drawing.Color.Red;
+            title16.Name = "Title1";
+            title16.Text = "RED";
+            this.chartRed.Titles.Add(title16);
             // 
             // chartGreen
             // 
-            chartArea2.AxisX.Maximum = 255D;
-            chartArea2.AxisX.Minimum = 0D;
-            chartArea2.BackColor = System.Drawing.Color.DarkGray;
-            chartArea2.Name = "ChartArea1";
-            this.chartGreen.ChartAreas.Add(chartArea2);
-            legend2.BackColor = System.Drawing.Color.DarkGray;
-            legend2.Enabled = false;
-            legend2.Name = "Legend1";
-            this.chartGreen.Legends.Add(legend2);
+            chartArea17.AxisX.Maximum = 255D;
+            chartArea17.AxisX.Minimum = 0D;
+            chartArea17.BackColor = System.Drawing.Color.DarkGray;
+            chartArea17.Name = "ChartArea1";
+            this.chartGreen.ChartAreas.Add(chartArea17);
+            legend17.BackColor = System.Drawing.Color.DarkGray;
+            legend17.Enabled = false;
+            legend17.Name = "Legend1";
+            this.chartGreen.Legends.Add(legend17);
             this.chartGreen.Location = new System.Drawing.Point(423, 23);
             this.chartGreen.Name = "chartGreen";
-            series2.ChartArea = "ChartArea1";
-            series2.Color = System.Drawing.Color.Black;
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chartGreen.Series.Add(series2);
+            series17.ChartArea = "ChartArea1";
+            series17.Color = System.Drawing.Color.Black;
+            series17.Legend = "Legend1";
+            series17.Name = "Series1";
+            this.chartGreen.Series.Add(series17);
             this.chartGreen.Size = new System.Drawing.Size(412, 275);
             this.chartGreen.TabIndex = 9;
             this.chartGreen.Text = "chart1";
-            title2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-            title2.ForeColor = System.Drawing.Color.LimeGreen;
-            title2.Name = "Title1";
-            title2.Text = "GREEN";
-            this.chartGreen.Titles.Add(title2);
+            title17.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
+            title17.ForeColor = System.Drawing.Color.LimeGreen;
+            title17.Name = "Title1";
+            title17.Text = "GREEN";
+            this.chartGreen.Titles.Add(title17);
             // 
             // chartBlue
             // 
-            chartArea3.AxisX.Maximum = 255D;
-            chartArea3.AxisX.Minimum = 0D;
-            chartArea3.BackColor = System.Drawing.Color.DarkGray;
-            chartArea3.Name = "ChartArea1";
-            this.chartBlue.ChartAreas.Add(chartArea3);
-            legend3.BackColor = System.Drawing.Color.DarkGray;
-            legend3.Enabled = false;
-            legend3.Name = "Legend1";
-            this.chartBlue.Legends.Add(legend3);
+            chartArea18.AxisX.Maximum = 255D;
+            chartArea18.AxisX.Minimum = 0D;
+            chartArea18.BackColor = System.Drawing.Color.DarkGray;
+            chartArea18.Name = "ChartArea1";
+            this.chartBlue.ChartAreas.Add(chartArea18);
+            legend18.BackColor = System.Drawing.Color.DarkGray;
+            legend18.Enabled = false;
+            legend18.Name = "Legend1";
+            this.chartBlue.Legends.Add(legend18);
             this.chartBlue.Location = new System.Drawing.Point(423, 305);
             this.chartBlue.Name = "chartBlue";
-            series3.ChartArea = "ChartArea1";
-            series3.Color = System.Drawing.Color.Black;
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.chartBlue.Series.Add(series3);
+            series18.ChartArea = "ChartArea1";
+            series18.Color = System.Drawing.Color.Black;
+            series18.Legend = "Legend1";
+            series18.Name = "Series1";
+            this.chartBlue.Series.Add(series18);
             this.chartBlue.Size = new System.Drawing.Size(412, 275);
             this.chartBlue.TabIndex = 10;
             this.chartBlue.Text = "chart1";
-            title3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
-            title3.ForeColor = System.Drawing.Color.Blue;
-            title3.Name = "Title1";
-            title3.Text = "BLUE";
-            this.chartBlue.Titles.Add(title3);
+            title18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Bold);
+            title18.ForeColor = System.Drawing.Color.Blue;
+            title18.Name = "Title1";
+            title18.Text = "BLUE";
+            this.chartBlue.Titles.Add(title18);
             // 
-            // kuwaharaFilterToolStripMenuItem
+            // ujednačavanjeBojaUSličnoObojenimZonamaToolStripMenuItem
             // 
-            this.kuwaharaFilterToolStripMenuItem.Name = "kuwaharaFilterToolStripMenuItem";
-            this.kuwaharaFilterToolStripMenuItem.Size = new System.Drawing.Size(302, 22);
-            this.kuwaharaFilterToolStripMenuItem.Text = "Kuwahara filter";
-            this.kuwaharaFilterToolStripMenuItem.Click += new System.EventHandler(this.kuwaharaFilterToolStripMenuItem_Click);
+            this.ujednačavanjeBojaUSličnoObojenimZonamaToolStripMenuItem.Name = "ujednačavanjeBojaUSličnoObojenimZonamaToolStripMenuItem";
+            this.ujednačavanjeBojaUSličnoObojenimZonamaToolStripMenuItem.Size = new System.Drawing.Size(320, 22);
+            this.ujednačavanjeBojaUSličnoObojenimZonamaToolStripMenuItem.Text = "Ujednačavanje boja u slično obojenim zonama";
+            this.ujednačavanjeBojaUSličnoObojenimZonamaToolStripMenuItem.Click += new System.EventHandler(this.ujednačavanjeBojaUSličnoObojenimZonamaToolStripMenuItem_Click);
+            // 
+            // colorDialog
+            // 
+            this.colorDialog.FullOpen = true;
             // 
             // MainForm
             // 
@@ -629,6 +644,8 @@ namespace MMSP1
         private System.Windows.Forms.ToolStripMenuItem downsamplingToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem kuwaharaFilterToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ujednačavanjeBojaUSličnoObojenimZonamaToolStripMenuItem;
+        private System.Windows.Forms.ColorDialog colorDialog;
     }
 }
 

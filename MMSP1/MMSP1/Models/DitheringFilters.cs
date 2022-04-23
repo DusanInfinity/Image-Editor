@@ -66,7 +66,7 @@ namespace MMSP1.Models
             if ((a & 0xff) + b < 0)
                 return 0;
             else if ((a & 0xff) + b > 255)
-                return (byte)255;
+                return 255;
             else
                 return (byte)(a + b);
         }

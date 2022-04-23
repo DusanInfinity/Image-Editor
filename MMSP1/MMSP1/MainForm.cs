@@ -19,6 +19,7 @@ namespace MMSP1
         private bool RunFiltersInWin32Core = false;
         private bool IsChartsViewActive = false;
         private ElfakBitmap[] Downsamples = null;
+        private bool IsChoosingPixelActive = false;
 
         public MainForm()
         {
@@ -766,6 +767,59 @@ namespace MMSP1
                     ShowError("Niste uneli validnu vrednost za Size!");
             }
 
+        }
+
+        private void ujednačavanjeBojaUSličnoObojenimZonamaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (BitmapImg == null)
+            {
+                ShowError("Da biste primenili filter, prvo morate učitati sliku!");
+                return;
+            }
+
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                ShowInfo("Izabrali se boju! Sada kliknite na neku tačku na slici!");
+
+                if (IsMultiplePictureViewActive)
+                    ToggleMultipleView();
+
+                IsChoosingPixelActive = true;
+            }
+        }
+
+        private void mainPictureBox_MouseClick(object sender, MouseEventArgs me)
+        {
+            if (!IsChoosingPixelActive) return;
+
+            if (IsMultiplePictureViewActive)
+            {
+                ShowError("Zbog prezicnosti, neophodno je deaktiviranje pregleda po kanalima!");
+                ToggleMultipleView();
+                return;
+            }
+
+
+            IsChoosingPixelActive = false;
+
+            InputForm inputForm = new InputForm();
+            inputForm.SetTitle("Ujednačavanje boja");
+            inputForm.SetText("Unesite vrednost za\r\nprag sličnosti:");
+            inputForm.SetInputValue("100");
+            if (inputForm.ShowDialog() == DialogResult.OK)
+            {
+                string input = inputForm.GetInputValue();
+                if (double.TryParse(input, out double similarityThreshold))
+                {
+                    if (BMapFilters.UnificationOfSimilarColoredZones(BitmapImg, colorDialog.Color, me.X, me.Y, similarityThreshold, out Bitmap generatedBitmap))
+                    {
+                        RegisterNewUndoAction(BitmapImg);
+                        LoadImage(generatedBitmap);
+                    }
+                }
+                else
+                    ShowError("Niste uneli validnu vrednost za prag sličnosti!");
+            }
         }
     }
 }

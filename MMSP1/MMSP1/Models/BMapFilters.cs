@@ -598,5 +598,199 @@ namespace MMSP1.Models
 
             return true;
         }
+
+        private static double GetColorSimilarity(Color c1, Color c2)
+        {
+            int Rdiff = c1.R - c2.R;
+            int Gdiff = c1.G - c2.G;
+            int Bdiff = c1.B - c2.B;
+
+            return Math.Sqrt(Rdiff * Rdiff + Gdiff * Gdiff + Bdiff * Bdiff);
+        }
+
+        //public static bool UnificationOfSimilarColoredZonesUnsafe(Bitmap inputBitmap, Color colorX, int x, int y, double simThreshold, out Bitmap generatedBitmap)
+        //{
+        //    generatedBitmap = (Bitmap)inputBitmap.Clone();
+
+        //    int width = generatedBitmap.Width;
+        //    int height = generatedBitmap.Height;
+
+        //    if (x < 0 || x >= width || y < 0 || y >= height) return false;
+
+        //    BitmapData bmData = generatedBitmap.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+
+        //    int stride = bmData.Stride;
+        //    System.IntPtr Scan0 = bmData.Scan0;
+
+        //    unsafe
+        //    {
+        //        byte* p = (byte*)(void*)Scan0;
+
+        //        int clickedPixelOffset = y * stride + x * 3;
+
+        //        int offset = clickedPixelOffset;
+
+        //        byte yRed = p[offset + 2];
+        //        byte yGreen = p[offset + 1];
+        //        byte yBlue = p[offset];
+
+        //        p[offset + 2] = colorX.R;
+        //        p[offset + 1] = colorX.G;
+        //        p[offset] = colorX.B;
+
+        //        if (x - 1 >= 0) // leva strana
+        //        {
+        //            offset = offset - 3; // levo - sredina
+        //            if (GetColorSimilarity(Color.FromArgb(p[offset + 2], p[offset + 2], p[offset + 2]), colorX) <= simThreshold)
+        //            {
+        //                p[offset + 2] = colorX.R;
+        //                p[offset + 1] = colorX.G;
+        //                p[offset] = colorX.B;
+        //            }
+
+        //            if (y - 1 >= 0)
+        //            {
+        //                offset = offset - stride; // levo - gore
+        //                if (GetColorSimilarity(Color.FromArgb(p[offset + 2], p[offset + 2], p[offset + 2]), colorX) <= simThreshold)
+        //                {
+        //                    p[offset + 2] = colorX.R;
+        //                    p[offset + 1] = colorX.G;
+        //                    p[offset] = colorX.B;
+        //                }
+        //            }
+
+        //            if (y + 1 < height)
+        //            {
+        //                offset = offset + 2 * stride; // levo - dole
+        //                if (GetColorSimilarity(Color.FromArgb(p[offset + 2], p[offset + 2], p[offset + 2]), colorX) <= simThreshold)
+        //                {
+        //                    p[offset + 2] = colorX.R;
+        //                    p[offset + 1] = colorX.G;
+        //                    p[offset] = colorX.B;
+        //                }
+        //            }
+        //        }
+
+        //        offset = clickedPixelOffset;
+        //        if (x + 1 < width) // desna strana
+        //        {
+        //            offset = offset + 3; // desno - sredina
+        //            if (GetColorSimilarity(Color.FromArgb(p[offset + 2], p[offset + 2], p[offset + 2]), colorX) <= simThreshold)
+        //            {
+        //                p[offset + 2] = colorX.R;
+        //                p[offset + 1] = colorX.G;
+        //                p[offset] = colorX.B;
+        //            }
+
+        //            if (y - 1 >= 0)
+        //            {
+        //                offset = offset - stride; // desno - gore
+        //                if (GetColorSimilarity(Color.FromArgb(p[offset + 2], p[offset + 2], p[offset + 2]), colorX) <= simThreshold)
+        //                {
+        //                    p[offset + 2] = colorX.R;
+        //                    p[offset + 1] = colorX.G;
+        //                    p[offset] = colorX.B;
+        //                }
+        //            }
+
+        //            if (y + 1 < height)
+        //            {
+        //                offset = offset + 2 * stride; // desno - dole
+        //                if (GetColorSimilarity(Color.FromArgb(p[offset + 2], p[offset + 2], p[offset + 2]), colorX) <= simThreshold)
+        //                {
+        //                    p[offset + 2] = colorX.R;
+        //                    p[offset + 1] = colorX.G;
+        //                    p[offset] = colorX.B;
+        //                }
+        //            }
+        //        }
+
+        //        offset = clickedPixelOffset;
+        //        if (y - 1 >= 0) // gore
+        //        {
+        //            offset = offset - stride; // gore - sredina
+        //            if (GetColorSimilarity(Color.FromArgb(p[offset + 2], p[offset + 2], p[offset + 2]), colorX) <= simThreshold)
+        //            {
+        //                p[offset + 2] = colorX.R;
+        //                p[offset + 1] = colorX.G;
+        //                p[offset] = colorX.B;
+        //            }
+        //        }
+
+        //        offset = clickedPixelOffset;
+        //        if (y + 1 < height) // dole
+        //        {
+        //            offset = offset + stride; // dole - sredina
+        //            if (GetColorSimilarity(Color.FromArgb(p[offset + 2], p[offset + 2], p[offset + 2]), colorX) <= simThreshold)
+        //            {
+        //                p[offset + 2] = colorX.R;
+        //                p[offset + 1] = colorX.G;
+        //                p[offset] = colorX.B;
+        //            }
+        //        }
+
+        //    }
+
+        //    generatedBitmap.UnlockBits(bmData);
+
+        //    return true;
+        //}
+
+        public static bool UnificationOfSimilarColoredZones(Bitmap inputBitmap, Color colorX, int x, int y, double simThreshold, out Bitmap generatedBitmap)
+        {
+            generatedBitmap = (Bitmap)inputBitmap.Clone();
+
+            int width = generatedBitmap.Width;
+            int height = generatedBitmap.Height;
+
+            if (x < 0 || x >= width || y < 0 || y >= height) return false;
+
+            Color colorY = generatedBitmap.GetPixel(x, y);
+            generatedBitmap.SetPixel(x, y, colorX);
+
+            bool[,] processed = new bool[width, height];
+            processed[x, y] = true;
+
+            Stack<Tuple<int, int>> stack = new Stack<Tuple<int, int>>();
+
+            stack.Push(new Tuple<int, int>(x - 1, y));
+            stack.Push(new Tuple<int, int>(x - 1, y - 1));
+            stack.Push(new Tuple<int, int>(x - 1, y + 1));
+            stack.Push(new Tuple<int, int>(x + 1, y));
+            stack.Push(new Tuple<int, int>(x + 1, y - 1));
+            stack.Push(new Tuple<int, int>(x + 1, y + 1));
+            stack.Push(new Tuple<int, int>(x, y - 1));
+            stack.Push(new Tuple<int, int>(x, y + 1));
+
+            while (stack.Count > 0)
+            {
+                Tuple<int, int> coords = stack.Pop();
+
+                int currX = coords.Item1;
+                int currY = coords.Item2;
+
+                if (currX < 0 || currX >= width || currY < 0 || currY >= height || processed[currX, currY])
+                    continue;
+
+                processed[currX, currY] = true;
+
+                Color currColor = generatedBitmap.GetPixel(currX, currY);
+                if (GetColorSimilarity(currColor, colorY) > simThreshold)
+                    continue;
+
+                generatedBitmap.SetPixel(currX, currY, colorX);
+
+                stack.Push(new Tuple<int, int>(currX - 1, currY)); // levo sredina
+                stack.Push(new Tuple<int, int>(currX - 1, currY - 1)); // levo gore
+                stack.Push(new Tuple<int, int>(currX - 1, currY + 1)); // levo dole
+                stack.Push(new Tuple<int, int>(currX + 1, currY)); // desno sredina
+                stack.Push(new Tuple<int, int>(currX + 1, currY - 1)); // desno gore
+                stack.Push(new Tuple<int, int>(currX + 1, currY + 1)); // desno dole
+                stack.Push(new Tuple<int, int>(currX, currY - 1)); // gore - sredina
+                stack.Push(new Tuple<int, int>(currX, currY + 1)); // dole - sredina
+            }
+
+            return true;
+        }
     }
 }
